@@ -12,6 +12,11 @@ module.exports = {
     DatabaseOut: {
         error: true,
         message: 'The system is out now!'
+    },
+
+    BadRequestByUser: {
+        error: true,
+        message: 'Bad request! Please try again.'
     }
 
 }
