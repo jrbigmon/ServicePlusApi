@@ -16,6 +16,7 @@
     "moment": "^2.29.4",
     "mysql2": "^2.3.3",
     "sequelize": "^6.21.3",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "standard": "^17.0.0"
   }
 }
