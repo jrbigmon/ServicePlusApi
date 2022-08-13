@@ -1,19 +1,19 @@
-'use strict';
+'use strict'
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('services', { 
+    await queryInterface.createTable('services', {
       id: {
         type: Sequelize.DataTypes.INTEGER(10),
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
       },
-      
+
       client_id: {
         type: Sequelize.DataTypes.INTEGER(10),
         references: {
-          model: { tableName: 'clients'},
+          model: { tableName: 'clients' },
           key: 'id'
         },
         allowNull: false
@@ -22,7 +22,7 @@ module.exports = {
       professional_id: {
         type: Sequelize.DataTypes.INTEGER(10),
         references: {
-          model: { tableName: 'professionals'},
+          model: { tableName: 'professionals' },
           key: 'id'
         },
         allowNull: false
@@ -46,15 +46,15 @@ module.exports = {
       service_status_id: {
         type: Sequelize.DataTypes.INTEGER(10),
         references: {
-          model: { tableName: 'service_status'},
+          model: { tableName: 'service_status' },
           key: 'id'
         },
         allowNull: false
       }
-    });
+    })
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('services');
+    await queryInterface.dropTable('services')
   }
-};
+}
