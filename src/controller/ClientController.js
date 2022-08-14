@@ -3,6 +3,15 @@ const DefaultErrors = require('../Errors/DefaultErrors')
 const bcrypt = require('bcryptjs')
 
 const ClientController = {
+    viewClient: async (req, res) => {
+        const { id } = req.params
+        const client = Client.findByPk(id)
+        if(!verifyIfExists){
+            return res.status(400).json(DefaultErrors.NotExistsInDatase)
+        }
+        return res.json(client)
+    },
+
     createClient: async (req, res) => {
         try {
             const {
