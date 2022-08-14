@@ -11,7 +11,7 @@ const AreaRouter = require('./src/router/AreaRouter')
 app.use(uriBase, AreaRouter)
 
 app.use('*', (req, res) => {
-    return res.status(404).json(DefaultErrors.BadRequestByUser.message)
+    return res.status(404).json(DefaultErrors.BadRequestByUser)
 })
 
 app.listen(port, () => console.log('listening on port ' + port))
