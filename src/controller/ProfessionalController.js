@@ -57,7 +57,7 @@ const ProfessionalController = {
             const { id } = req.params
             const { name, lastName, cpf, birthday, postalCode, telephone, areaId } = req.body
             // const { avatar } = req.file
-            const verifyIfExists = await Client.findByPk(id)
+            const verifyIfExists = await Professional.findByPk(id)
             if(!verifyIfExists){
                 return res.status(400).json(DefaultErrors.NotExistsInDatase)
             }
