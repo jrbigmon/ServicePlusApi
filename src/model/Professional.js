@@ -23,6 +23,12 @@ module.exports = (sequelize, DataTypes) => {
       field: 'last_name'
     },
 
+    cpf: {
+      type: DataTypes.STRING(25),
+      allowNull: false,
+      unique: true
+    },
+
     birthday: {
       type: DataTypes.STRING(200),
       allowNull: false
@@ -41,7 +47,8 @@ module.exports = (sequelize, DataTypes) => {
 
     email: {
       type: DataTypes.STRING(200),
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
 
     password: {
