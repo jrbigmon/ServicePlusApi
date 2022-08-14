@@ -7,11 +7,14 @@ const uriBase = '/serviceplus/api/v1/'
 const DefaultErrors = require('./src/Errors/DefaultErrors')
 const AreaRouter = require('./src/router/AreaRouter')
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
 app.use(uriBase, AreaRouter)
 
-app.use('*', (req, res) => {
-    return res.status(404).json(DefaultErrors.BadRequestByUser)
-})
-
+app.use((req, res, next) => {
+    res.status(404).json(DefaultErrors.BadRequestByUser)
+    next()
+  })
+  
 app.listen(port, () => console.log('listening on port ' + port))

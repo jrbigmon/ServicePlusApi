@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     avatar: {
       type: DataTypes.STRING(200),
       allowNull: true,
-      defaultValue: 'defaultAvatar.jpeg'
+      defaultValue: '/front-end/public/img/clientAvatar/defaultAvatar.jpeg'
     },
 
     name: {
