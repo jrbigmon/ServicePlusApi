@@ -1,15 +1,20 @@
-const { Client } = require('../model/Client')
+const { Client } = require('../model/')
 const DefaultErrors = require('../Errors/DefaultErrors')
 const bcrypt = require('bcryptjs')
 
 const ClientController = {
     viewClient: async (req, res) => {
-        const { id } = req.params
-        const client = Client.findByPk(id)
-        if(!verifyIfExists){
-            return res.status(400).json(DefaultErrors.NotExistsInDatase)
+        try {
+            const { id } = req.params
+            const client = Client.findByPk(id)
+            if(!verifyIfExists){
+                return res.status(400).json(DefaultErrors.NotExistsInDatase)
+            }
+            return res.json(client)
+        } catch (err){
+            return res.status(500).json(DefaultErrors.DatabaseOut)
+
         }
-        return res.json(client)
     },
 
     createClient: async (req, res) => {
@@ -34,7 +39,7 @@ const ClientController = {
                 numberAddress,
                 telephone,
                 email,
-                password: bcrypt.hash(password, 10)
+                password: bcrypt.hashSync(password, 10)
             }
             const verifyIfExists = await Client.findOne({where: { email }})
             if(verifyIfExists) {
