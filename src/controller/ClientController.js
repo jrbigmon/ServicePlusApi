@@ -6,8 +6,8 @@ const ClientController = {
     viewClient: async (req, res) => {
         try {
             const { id } = req.params
-            const client = Client.findByPk(id)
-            if(!verifyIfExists){
+            const client = await Client.findByPk(id)
+            if(!client){
                 return res.status(400).json(DefaultErrors.NotExistsInDatase)
             }
             return res.json(client)
@@ -55,15 +55,24 @@ const ClientController = {
     updateClient: async (req, res) => {
         try {
             const { id } = req.params
-            const { name, lastName, cpf, birthday, postalCode, numberAddress, telephone } = req.body
-            const { avatar } = req.file
+            const {
+                name,
+                lastName,
+                cpf,
+                birthday,
+                postalCode,
+                numberAddress,
+                telephone
+            } = req.body
+            // const { avatar } = req.file
             const verifyIfExists = await Client.findByPk(id)
+            // console.log(verifyIfExists)
             if(!verifyIfExists){
                 return res.status(400).json(DefaultErrors.NotExistsInDatase)
             }
             const updatedClient = {
                 ...verifyIfExists,
-                avatar: avatar.file.filename || verifyIfExists.avatar,
+                // avatar: avatar.file.filename || verifyIfExists.avatar,
                 name: name || verifyIfExists.name,
                 lastName: lastName || verifyIfExists.lastName,
                 cpf: cpf || verifyIfExists.cpf,
