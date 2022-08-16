@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Area.associate = (models => {
     Area.hasMany(models.Professional, {
-      foreignKey: 'professionalId',
+      foreignKey: 'areaId',
       as: 'professionals'
     })
   })
