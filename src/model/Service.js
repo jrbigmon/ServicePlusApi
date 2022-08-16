@@ -51,5 +51,20 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
 
+  Service.associate(models => {
+    Service.belongsTo(models.ServiceStatus,{
+      foreignKey: 'serviceStatusId',
+      as: 'serviceStatus'
+    })
+    Service.hasMany(models.Professional, {
+      foreignKey: 'professionalId',
+      as: 'professional'
+    })
+    Service.hasMany(models.Client, {
+      foreignKey: 'clientId',
+      as: 'client'
+    })
+  })
+  
   return Service
 }
