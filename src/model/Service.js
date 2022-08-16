@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
 
-  Service.associate(models => {
+  Service.associate = (models => {
     Service.belongsTo(models.ServiceStatus,{
       foreignKey: 'serviceStatusId',
       as: 'serviceStatus'
@@ -65,6 +65,6 @@ module.exports = (sequelize, DataTypes) => {
       as: 'client'
     })
   })
-  
+
   return Service
 }
