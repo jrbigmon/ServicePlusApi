@@ -7,9 +7,7 @@ const ProfessionalController = {
     try {
       const { id } = req.params
       const professional = await Professional.findByPk(id)
-      if (!professional) {
-        return res.status(400).json(DefaultErrors.NotExistsInDatase)
-      }
+      if (!professional) return res.status(400).json(DefaultErrors.NotExistsInDatase)
       return res.json(professional)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
@@ -41,9 +39,7 @@ const ProfessionalController = {
         areaId
       }
       const verifyIfExists = await Professional.findOne({ where: { email } })
-      if (verifyIfExists) {
-        return res.status(409).json(DefaultErrors.ExistsInDatase)
-      }
+      if (verifyIfExists) return res.status(409).json(DefaultErrors.ExistsInDatase)
       await Professional.create(newProfessional)
       return res.status(201).json(newProfessional)
     } catch (err) {
@@ -57,9 +53,7 @@ const ProfessionalController = {
       const { name, lastName, cpf, birthday, postalCode, telephone, areaId } = req.body
       // const { avatar } = req.file
       const verifyIfExists = await Professional.findByPk(id)
-      if (!verifyIfExists) {
-        return res.status(400).json(DefaultErrors.NotExistsInDatase)
-      }
+      if (!verifyIfExists) return res.status(400).json(DefaultErrors.NotExistsInDatase)
       const updatedProfessional = {
         ...verifyIfExists,
         // avatar: avatar.file.filename || verifyIfExists.avatar,
@@ -82,9 +76,7 @@ const ProfessionalController = {
     try {
       const { id } = req.params
       const verifyIfExists = await Professional.findByPk(id)
-      if (!verifyIfExists) {
-        return res.status(400).json(DefaultErrors.NotExistsInDatase)
-      }
+      if (!verifyIfExists) return res.status(400).json(DefaultErrors.NotExistsInDatase)
       await Professional.destroy({ where: { id } })
       return res.status(204).json()
     } catch (err) {
