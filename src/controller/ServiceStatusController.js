@@ -36,7 +36,7 @@ const ServiceStatusController = {
         }
     },
 
-    remove: async (req, res) => {
+    removeServiceStatus: async (req, res) => {
         try {   
             const { id } = req.params
             const verifyIfExists = await ServiceStatus.findOne({where: { id }})
