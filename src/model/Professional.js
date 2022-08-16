@@ -80,6 +80,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'areaId',
       as: 'area'
     })
+    Professional.belongsToMany(models.Client, {
+      foreignKey: 'professionalId',
+      otherKey: 'clientId',
+      through: models.Service,
+      as: 'serviceByProfessional'
+    })
   })
   return Professional
 }
