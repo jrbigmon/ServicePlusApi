@@ -21,6 +21,19 @@ const ServiceStatusController = {
         } catch (err){
             return res.status(500).json(DefaultErrors.DatabaseOut)
         }
+    },
+
+    updateServiceStatus: async (req, res) => {
+        try {
+            const { id } = req.params
+            const { name } = req.body
+            const verifyIfExists = await ServiceStatus.findOne({where: { id }})
+            if(!verifyIfExists) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+            const statusServiceUpdated = await ServiceStatus.update({ name }, {where: { id }})
+            return res.json(statusServiceUpdated)
+        } catch (err) {
+            return res.status(500).json(DefaultErrors.DatabaseOut)
+        }
     }
 }
 
