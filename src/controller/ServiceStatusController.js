@@ -34,6 +34,18 @@ const ServiceStatusController = {
         } catch (err) {
             return res.status(500).json(DefaultErrors.DatabaseOut)
         }
+    },
+
+    remove: async (req, res) => {
+        try {   
+            const { id } = req.params
+            const verifyIfExists = await ServiceStatus.findOne({where: { id }})
+            if(!verifyIfExists) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+            await ServiceStatus.remove({where: { id }})
+            return res.status(204).json()
+        } catch (err) {
+            return res.status(500).json(DefaultErrors.DatabaseOut)
+        }
     }
 }
 
