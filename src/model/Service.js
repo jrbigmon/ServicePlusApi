@@ -56,11 +56,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'serviceStatusId',
       as: 'serviceStatus'
     })
-    Service.hasMany(models.Professional, {
+    Service.belongsTo(models.Professional, {
       foreignKey: 'professionalId',
       as: 'professional'
     })
-    Service.hasMany(models.Client, {
+    Service.belongsTo(models.Client, {
       foreignKey: 'clientId',
       as: 'client'
     })
