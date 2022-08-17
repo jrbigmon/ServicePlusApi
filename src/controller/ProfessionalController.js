@@ -6,7 +6,9 @@ const ProfessionalController = {
   viewProfessional: async (req, res) => {
     try {
       const { id } = req.params
-      const professional = await Professional.findByPk(id)
+      const professional = await Professional.findByPk(id,{
+        include:{ association: 'area', attributes: ['name'] }
+      })
       if (!professional) return res.status(400).json(DefaultErrors.NotExistsInDatase)
       return res.json(professional)
     } catch (err) {
