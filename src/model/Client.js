@@ -75,6 +75,10 @@ module.exports = (sequelize, DataTypes) => {
       through: models.Service,
       as: 'serviceByClient'
     })
+    Client.hasMany(models.Service, {
+      foreignKey: 'cliendId',
+      as: 'servicesByClient'
+    })
   })
 
   return Client
