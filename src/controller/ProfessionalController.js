@@ -40,6 +40,9 @@ const ProfessionalController = {
         password: bcrypt.hashSync(password, 10),
         areaId
       }
+      for(let prop in newProfessional){
+        if(newProfessional[prop] == undefined) return res.status(404).json(DefaultErrors.EmptyFields)
+      }
       const verifyIfExists = await Professional.findOne({ where: { email } })
       if (verifyIfExists) return res.status(409).json(DefaultErrors.ExistsInDatase)
       await Professional.create(newProfessional)
