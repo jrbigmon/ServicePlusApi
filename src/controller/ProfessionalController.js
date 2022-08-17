@@ -55,12 +55,11 @@ const ProfessionalController = {
   updateProfessional: async (req, res) => {
     try {
       const { id } = req.params
-      const { name, lastName, cpf, birthday, postalCode, telephone, areaId } = req.body
+      const { name, lastName, cpf, birthday, postalCode, telephone, aboutYou, areaId } = req.body
       // const { avatar } = req.file
       const verifyIfExists = await Professional.findByPk(id)
       if (!verifyIfExists) return res.status(400).json(DefaultErrors.NotExistsInDatase)
       const updatedProfessional = {
-        ...verifyIfExists,
         // avatar: avatar.file.filename || verifyIfExists.avatar,
         name: name || verifyIfExists.name,
         lastName: lastName || verifyIfExists.lastName,
@@ -68,6 +67,7 @@ const ProfessionalController = {
         birthday: birthday || verifyIfExists.birthday,
         postalCode: postalCode || verifyIfExists.postalCode,
         telephone: telephone || verifyIfExists.telephone,
+        aboutYou: aboutYou || verifyIfExists.aboutYou,
         areaId: areaId || verifyIfExists.areaId
       }
       await Professional.update(updatedProfessional, { where: { id } })
