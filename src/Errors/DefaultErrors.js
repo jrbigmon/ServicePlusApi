@@ -17,6 +17,11 @@ module.exports = {
   BadRequestByUser: {
     error: true,
     message: 'Bad request! Please try again.'
+  },
+
+  EmptyFields:{
+    error: true,
+    message: 'Has empty fields! Please try again.'
   }
 
 }
