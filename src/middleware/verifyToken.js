@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const DefaultErrors = require('../Errors/DefaultErrors')
 
 const verifyToken = (req, res, next) => {
   try {
@@ -8,9 +9,11 @@ const verifyToken = (req, res, next) => {
 
     req.user = decode
 
+    sessionStorage.setItem('token', decode)
+
     return next()
   } catch (err) {
-    return res.status(401).json('Erro in verifyToken!')
+    return res.status(401).json(DefaultErrors.VerifyToken)
   }
 }
 
