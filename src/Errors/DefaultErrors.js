@@ -22,6 +22,11 @@ module.exports = {
   EmptyFields:{
     error: true,
     message: 'Has empty fields! Please try again.'
+  },
+
+  UserNotValidated: {
+    error: true,
+    message: 'User is not valid! Please try again.'
   }
 
 }
