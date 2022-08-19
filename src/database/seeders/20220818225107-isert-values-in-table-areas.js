@@ -4,13 +4,13 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     const areas = [
       {
-        name: 'Eletricista'
+        name: 'Electrician'
       },
       {
-        name: 'Encanador'
+        name: 'Plumber'
       },
       {
-        name: 'Pintor'
+        name: 'Painter'
       }
     ]
     await queryInterface.bulkInsert('areas', areas, {});
