@@ -27,6 +27,11 @@ module.exports = {
   UserNotValidated: {
     error: true,
     message: 'User is not valid! Please try again.'
+  },
+
+  VerifyToken: {
+    error: true,
+    message: 'Error in verify Token! Please try again.'
   }
 
 }
