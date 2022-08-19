@@ -1,6 +1,7 @@
 const { Client } = require('../model/')
 const DefaultErrors = require('../Errors/DefaultErrors')
 const bcrypt = require('bcryptjs')
+const { Op }= require('sequelize')
 
 const ClientController = {
   viewClient: async (req, res) => {
@@ -36,9 +37,13 @@ const ClientController = {
         numberAddress,
         telephone,
         email,
-        password: bcrypt.hashSync(password, 10)
+        password: !password.trim() ? "" : bcrypt.hashSync(password, 10)
       }
-      const verifyIfExists = await Client.findOne({ where: { email } })
+      for(let props in newClient){
+        const propertyWithoutSpace = newClient[props].trim()
+        if(!propertyWithoutSpace) return res.status(404).json(DefaultErrors.EmptyFields)
+      }
+      const verifyIfExists = await Client.findOne({ where: { [Op.or] : { email, cpf } } })
       if (verifyIfExists)  return res.status(409).json(DefaultErrors.ExistsInDatase)
       await Client.create(newClient)
       return res.status(201).json(newClient)
