@@ -9,6 +9,7 @@ const AreaRouter = require('./src/router/AreaRouter')
 const ClientRouter = require('./src/router/ClientRouter')
 const ProfessionalRouter = require('./src/router/ProfessionalRouter')
 const ServiceStatus = require('./src/router/ServiceStatusRouter')
+const AuthRouter = require('./src/router/AuthRouter')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -17,6 +18,7 @@ app.use(uriBase, AreaRouter)
 app.use(uriBase, ClientRouter)
 app.use(uriBase, ProfessionalRouter)
 app.use(uriBase, ServiceStatus)
+app.use(uriBase, AuthRouter)
 
 app.use((req, res, next) => {
   res.status(404).json(DefaultErrors.BadRequestByUser)
