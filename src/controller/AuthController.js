@@ -18,14 +18,14 @@ const AuthController = {
         if (!user || !bcrypt.compareSync(password, user.password)) return res.status(401).json(DefaultErrors.UserNotValidated)
       }
       if (typeUser == 'admin') {
-        user = await Professional.findOne({ where: { email } })
+        user = await Admin.findOne({ where: { email } })
         if (!user || !bcrypt.compareSync(password, user.password)) return res.status(401).json(DefaultErrors.UserNotValidated)
       }
       const token = jwt.sign(
         {
           id: user.id,
           email: user.email,
-          isAdmin: typeUser == 'admin' ? 'jrbigmon' : false
+          isAdmin: typeUser == 'admin' ? 'jrbigmon' : 'not-admin'
         },
 
         process.env.JWT_KEY,
