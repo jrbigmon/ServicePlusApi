@@ -24,7 +24,8 @@ const AuthController = {
       const token = jwt.sign(
         {
           id: user.id,
-          email: user.email
+          email: user.email,
+          isAdmin: typeUser == 'admin' ? 'jrbigmon' : false
         },
 
         process.env.JWT_KEY,
