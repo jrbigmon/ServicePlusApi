@@ -16,10 +16,7 @@ const AdminController = {
       }
       const verifyIfExists = await Admin.findOne({ where: { email } })
       if (verifyIfExists) return res.status(409).json(DefaultErrors.ExistsInDatase)
-      await Admin.create({
-        email: newAdmin.email,
-        password: bcrypt.hashSync(newAdmin.password, 10)
-      })
+      await Admin.create(newAdmin)
       return res.status(201).json({ email, message: 'Success' })
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
