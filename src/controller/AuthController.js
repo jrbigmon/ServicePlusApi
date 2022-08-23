@@ -1,6 +1,7 @@
 const { Client, Professional } = require('../model')
 const bcrypt = require('bcryptjs')
 const DefaultErrors = require('../Errors/DefaultErrors')
+const jwt = require('jsonwebtoken')
 
 const AuthController = {
   login: async (req, res) => {
