@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -17,12 +17,12 @@ module.exports = {
       },
       {
         name: 'Canceled'
-      },
+      }
     ]
-    await queryInterface.bulkInsert('service_status', serviceStatus, {});
+    await queryInterface.bulkInsert('service_status', serviceStatus, {})
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('service_status', null, {});
+    await queryInterface.bulkDelete('service_status', null, {})
   }
-};
+}

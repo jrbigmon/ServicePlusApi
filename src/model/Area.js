@@ -18,11 +18,11 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
 
-  Area.associate = (models => {
+  Area.associate = models => {
     Area.hasMany(models.Professional, {
       foreignKey: 'areaId',
       as: 'professionals'
     })
-  })
+  }
   return Area
 }

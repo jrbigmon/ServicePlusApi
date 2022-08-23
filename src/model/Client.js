@@ -68,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
 
-  Client.associate = (models => {
+  Client.associate = models => {
     Client.belongsToMany(models.Professional, {
       foreignKey: 'cliendId',
       otherKey: 'professionalId',
@@ -79,7 +79,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'cliendId',
       as: 'servicesByClient'
     })
-  })
+  }
 
   return Client
 }

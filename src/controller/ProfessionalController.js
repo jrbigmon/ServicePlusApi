@@ -6,8 +6,8 @@ const ProfessionalController = {
   viewProfessional: async (req, res) => {
     try {
       const { id } = req.params
-      const professional = await Professional.findByPk(id,{
-        include:{ association: 'area', attributes: ['name'] }
+      const professional = await Professional.findByPk(id, {
+        include: { association: 'area', attributes: ['name'] }
       })
       if (!professional) return res.status(400).json(DefaultErrors.NotExistsInDatase)
       return res.json(professional)
@@ -40,8 +40,8 @@ const ProfessionalController = {
         password: bcrypt.hashSync(password, 10),
         areaId
       }
-      for(let prop in newProfessional){
-        if(!newProfessional[prop]) return res.status(404).json(DefaultErrors.EmptyFields)
+      for (const prop in newProfessional) {
+        if (!newProfessional[prop]) return res.status(404).json(DefaultErrors.EmptyFields)
       }
       const verifyIfExists = await Professional.findOne({ where: { email } })
       if (verifyIfExists) return res.status(409).json(DefaultErrors.ExistsInDatase)

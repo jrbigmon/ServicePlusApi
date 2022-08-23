@@ -19,7 +19,7 @@ module.exports = {
     message: 'Bad request! Please try again.'
   },
 
-  EmptyFields:{
+  EmptyFields: {
     error: true,
     message: 'Has empty fields! Please try again.'
   },

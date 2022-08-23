@@ -1,5 +1,4 @@
 
-
 module.exports = (sequelize, DataTypes) => {
   const ServiceStatus = sequelize.define('ServiceStatus', {
     id: {
@@ -20,11 +19,11 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
 
-  ServiceStatus.associate = (models => {
+  ServiceStatus.associate = models => {
     ServiceStatus.hasMany(models.Service, {
       foreignKey: 'serviceStatusId',
       as: 'services'
     })
-  })
+  }
   return ServiceStatus
 }

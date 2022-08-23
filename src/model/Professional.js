@@ -75,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
 
-  Professional.associate = (models => {
+  Professional.associate = models => {
     Professional.belongsTo(models.Area, {
       foreignKey: 'areaId',
       as: 'area'
@@ -91,7 +91,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'professionalId',
       as: 'servicesByProfessional'
     })
-  })
-  
+  }
+
   return Professional
 }
