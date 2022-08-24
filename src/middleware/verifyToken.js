@@ -6,12 +6,8 @@ const verifyToken = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1]
 
     const decode = jwt.verify(token, process.env.JWT_KEY)
-    
-    console.log(decode)// analisar esse cara aqui
 
     req.user = decode
-
-    sessionStorage.setItem('token', decode)
 
     return next()
   } catch (err) {
