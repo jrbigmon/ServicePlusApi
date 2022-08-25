@@ -42,8 +42,9 @@ const ProfessionalController = {
         password: !password.trim() ? '' : bcrypt.hashSync(password, 10),
         areaId
       }
-      for (const prop in newProfessional) {
-        if (!newProfessional[prop]) return res.status(404).json(DefaultErrors.EmptyFields)
+      for (const props in newProfessional) {
+        const propertyWithoutSpace = newProfessional[props].trim() 
+        if (!propertyWithoutSpace) return res.status(404).json(DefaultErrors.EmptyFields)
       }
       const verifyIfExists = await Professional.findOne({ where: { email } })
       if (verifyIfExists) return res.status(409).json(DefaultErrors.ExistsInDatase)
