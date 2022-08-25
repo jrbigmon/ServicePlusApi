@@ -67,6 +67,28 @@ const ServiceController = {
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
+  },
+
+  budgeted: async (req, res) => {
+    try {
+      const { id } = req.params
+      const { servicePrice } = req.body
+      const service = await Service.findByPk(id)
+      if(!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+      if(service.serviceStatusId !== 1 || !servicePrice) return res.status(400).json(DefaultErrors.BadRequestByUser)
+      const serviceUpdated = {
+        ...service,
+        servicePrice
+      }
+      await Service.update(serviceUpdated, {where: { id }})
+      return res.json(serviceUpdated)
+    } catch (err) {
+      return res.status(500).json(DefaultErrors.DatabaseOut)
+    }
+  },
+
+  acceptBudgeted: async (req, res) => {
+
   }
 }
 
