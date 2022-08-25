@@ -1,6 +1,7 @@
 const { Professional } = require('../model/')
 const DefaultErrors = require('../Errors/DefaultErrors')
 const bcrypt = require('bcryptjs')
+const { Op } = require('sequelize')
 
 const ProfessionalController = {
   viewProfessional: async (req, res) => {
