@@ -7,8 +7,9 @@ const ClientController = {
   viewClient: async (req, res) => {
     try {
       const { id } = req.params
-      const client = await Client.findByPk(id)
+      const client = await Client.findByPk(id, { raw: true })
       if (!client) return res.status(400).json(DefaultErrors.NotExistsInDatase)
+      delete client.password
       return res.json(client)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
