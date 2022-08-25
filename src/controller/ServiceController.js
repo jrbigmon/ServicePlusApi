@@ -1,4 +1,4 @@
-const { Service } = require('../model')
+const { Service, Professional } = require('../model')
 const DefaultErrors = require('../Errors/DefaultErrors')
 
 const ServiceController = {
@@ -47,6 +47,23 @@ const ServiceController = {
       })
       if (services.length === 0) return res.status(204).json()
       return res.json(services)
+    } catch (err) {
+      return res.status(500).json(DefaultErrors.DatabaseOut)
+    }
+  },
+
+  requestBudget: async (req, res) => {
+    try {
+      const { clientId, professionalId, serviceDate, serviceDescription } = req.body
+      const verifyIfExists = await Professional.findByPk(professionalId)
+      if(!verifyIfExists) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+      const newService = { clientId, professionalId, serviceDate, serviceDescription }
+      for (const props in newService){
+        const propertyWithoutSpace = newService[props].trim()
+        if(!propertyWithoutSpace) return res.status(404).json(DefaultErrors.EmptyFields)
+      }
+      await Service.create(newService)
+      return res.status(201).json(newService)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
