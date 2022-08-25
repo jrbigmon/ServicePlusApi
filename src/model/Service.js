@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     servicePrice: {
       type: DataTypes.FLOAT,
       allowNull: false,
+      defaultValue: 0,
       field: 'service_price'
     },
 
@@ -43,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER(10),
       foreignKey: true,
       allowNull: false,
+      defaultValue: 1,
       field: 'service_status_id'
     }
   },
