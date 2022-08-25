@@ -11,15 +11,17 @@ const ProfessionalRouter = require('./src/router/ProfessionalRouter')
 const ServiceStatus = require('./src/router/ServiceStatusRouter')
 const AuthRouter = require('./src/router/AuthRouter')
 const AdminRouter = require('./src/router/AdminRouter')
+const ServiceRouter = require('./src/router/ServiceRouter')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-app.use(uriBase, AreaRouter)
+app.use(uriBase, AuthRouter)
 app.use(uriBase, ClientRouter)
 app.use(uriBase, ProfessionalRouter)
+app.use(uriBase, ServiceRouter)
 app.use(uriBase, ServiceStatus)
-app.use(uriBase, AuthRouter)
+app.use(uriBase, AreaRouter)
 app.use(uriBase, AdminRouter)
 
 app.use((req, res, next) => {
