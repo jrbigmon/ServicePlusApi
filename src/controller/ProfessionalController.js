@@ -44,7 +44,7 @@ const ProfessionalController = {
         areaId
       }
       for (const props in newProfessional) {
-        const propertyWithoutSpace = newProfessional[props].trim() 
+        const propertyWithoutSpace = newProfessional[props].trim()
         if (!propertyWithoutSpace) return res.status(404).json(DefaultErrors.EmptyFields)
       }
       const verifyIfExists = await Professional.findOne({ where: { [Op.or]: { email, cpf } } })
@@ -60,7 +60,7 @@ const ProfessionalController = {
   updateProfessional: async (req, res) => {
     try {
       const { typeUser } = req.user
-      if(typeUser !== 'professional') return res.status(401).json(DefaultErrors.BadRequestByUser)
+      if (typeUser !== 'professional') return res.status(401).json(DefaultErrors.BadRequestByUser)
       const { id } = req.params
       const { name, lastName, cpf, birthday, postalCode, telephone, aboutYou, areaId } = req.body
       // const { avatar } = req.file
@@ -78,7 +78,7 @@ const ProfessionalController = {
         areaId: areaId || verifyIfExists.areaId
       }
       await Professional.update(updatedProfessional, { where: { id } })
-      const professionalAfterUpdated = await Professional.findByPk(id, { raw: true })  
+      const professionalAfterUpdated = await Professional.findByPk(id, { raw: true })
       delete professionalAfterUpdated.password
       return res.status(202).json(professionalAfterUpdated)
     } catch (err) {
@@ -90,7 +90,7 @@ const ProfessionalController = {
     try {
       const { id } = req.params
       const { typeUser } = req.user
-      if(typeUser !== 'professional') return res.status(401).json(DefaultErrors.BadRequestByUser)
+      if (typeUser !== 'professional') return res.status(401).json(DefaultErrors.BadRequestByUser)
       const verifyIfExists = await Professional.findByPk(id)
       if (!verifyIfExists) return res.status(400).json(DefaultErrors.NotExistsInDatase)
       await Professional.destroy({ where: { id } })

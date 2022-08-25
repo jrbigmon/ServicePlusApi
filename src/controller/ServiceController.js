@@ -60,11 +60,11 @@ const ServiceController = {
     try {
       const { clientId, professionalId, serviceDate, serviceDescription } = req.body
       const verifyIfExists = await Professional.findByPk(professionalId)
-      if(!verifyIfExists) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+      if (!verifyIfExists) return res.status(404).json(DefaultErrors.NotExistsInDatase)
       const newService = { clientId, professionalId, serviceDate, serviceDescription }
-      for (const props in newService){
+      for (const props in newService) {
         const propertyWithoutSpace = newService[props].trim()
-        if(!propertyWithoutSpace) return res.status(404).json(DefaultErrors.EmptyFields)
+        if (!propertyWithoutSpace) return res.status(404).json(DefaultErrors.EmptyFields)
       }
       await Service.create(newService)
       return res.status(201).json(newService)
@@ -78,8 +78,8 @@ const ServiceController = {
       const { id } = req.params
       const { servicePrice } = req.body
       const service = await Service.findByPk(id)
-      if(!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
-      if(service.serviceStatusId !== 1 || !servicePrice) return res.status(400).json(DefaultErrors.BadRequestByUser)
+      if (!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+      if (service.serviceStatusId !== 1 || !servicePrice) return res.status(400).json(DefaultErrors.BadRequestByUser)
       const serviceUpdated = {
         servicePrice,
         serviceStatusId: 2
@@ -96,12 +96,12 @@ const ServiceController = {
     try {
       const { id } = req.params
       const service = await Service.findByPk(id)
-      if(!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
-      if(service.serviceStatusId !== 2) return res.status(400).json(DefaultErrors.BadRequestByUser)
+      if (!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+      if (service.serviceStatusId !== 2) return res.status(400).json(DefaultErrors.BadRequestByUser)
       const serviceUpdated = {
         serviceStatusId: 3
       }
-      await Service.update(serviceUpdated,  {where: { id } })
+      await Service.update(serviceUpdated, { where: { id } })
       const serviceAfterUpdated = await Service.findByPk(id)
       return res.json(serviceAfterUpdated)
     } catch (err) {
@@ -113,8 +113,8 @@ const ServiceController = {
     try {
       const { id } = req.params
       const service = await Service.findByPk(id)
-      if(!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
-      if(service.serviceStatusId !== 3) return res.status(400).json(DefaultErrors.BadRequestByUser)
+      if (!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+      if (service.serviceStatusId !== 3) return res.status(400).json(DefaultErrors.BadRequestByUser)
       const serviceUpdated = {
         serviceStatusId: 4
       }
@@ -130,8 +130,8 @@ const ServiceController = {
     try {
       const { id } = req.params
       const service = await Service.findByPk(id)
-      if(!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
-      if(service.serviceStatusId == 4 || service.serviceStatusId == 5) return res.status(400).json(DefaultErrors.BadRequestByUser)
+      if (!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+      if (service.serviceStatusId == 4 || service.serviceStatusId == 5) return res.status(400).json(DefaultErrors.BadRequestByUser)
       const serviceUpdated = {
         serviceStatusId: 5
       }
