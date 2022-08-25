@@ -46,7 +46,7 @@ const ProfessionalController = {
         const propertyWithoutSpace = newProfessional[props].trim() 
         if (!propertyWithoutSpace) return res.status(404).json(DefaultErrors.EmptyFields)
       }
-      const verifyIfExists = await Professional.findOne({ where: { email } })
+      const verifyIfExists = await Professional.findOne({ where: { [Op.or]: { email, cpf } } })
       if (verifyIfExists) return res.status(409).json(DefaultErrors.ExistsInDatase)
       await Professional.create(newProfessional)
       return res.status(201).json(newProfessional)
