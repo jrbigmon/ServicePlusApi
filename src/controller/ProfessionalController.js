@@ -75,7 +75,8 @@ const ProfessionalController = {
         aboutYou: aboutYou || verifyIfExists.aboutYou,
         areaId: areaId || verifyIfExists.areaId
       }
-      await Professional.update(updatedProfessional, { where: { id } })    
+      await Professional.update(updatedProfessional, { where: { id } })
+      const professionalAfterUpdated = await Professional.findByPk(id)  
       return res.status(202).json(professionalAfterUpdated)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
