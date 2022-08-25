@@ -81,7 +81,7 @@ const ClientController = {
       }
       await Client.update(updatedClient, { where: { id } })
       delete updatedClient.password
-      return res.status(202).json(updatedClient)
+      return res.status(202).json(req.body)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }

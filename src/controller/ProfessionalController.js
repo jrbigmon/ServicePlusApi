@@ -78,7 +78,7 @@ const ProfessionalController = {
       }
       await Professional.update(updatedProfessional, { where: { id } })
       delete updatedProfessional.password
-      return res.status(202).json(updatedProfessional)
+      return res.status(202).json(req.body)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
