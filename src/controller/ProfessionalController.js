@@ -65,7 +65,6 @@ const ProfessionalController = {
       const verifyIfExists = await Professional.findByPk(id)
       if (!verifyIfExists) return res.status(400).json(DefaultErrors.NotExistsInDatase)
       const updatedProfessional = {
-        ...verifyIfExists,
         // avatar: avatar.file.filename || verifyIfExists.avatar,
         name: name || verifyIfExists.name,
         lastName: lastName || verifyIfExists.lastName,
@@ -76,9 +75,8 @@ const ProfessionalController = {
         aboutYou: aboutYou || verifyIfExists.aboutYou,
         areaId: areaId || verifyIfExists.areaId
       }
-      await Professional.update(updatedProfessional, { where: { id } })
-      delete updatedProfessional.password
-      return res.status(202).json(req.body)
+      await Professional.update(updatedProfessional, { where: { id } })    
+      return res.status(202).json(professionalAfterUpdated)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
