@@ -79,7 +79,9 @@ const ClientController = {
         telephone: telephone || verifyIfExists.telephone
       }
       await Client.update(updatedClient, { where: { id } })
-      return res.status(202).json(updatedClient)
+      const clientAfterUpdated = await Client.findByPk(id, { raw: true })
+      delete clientAfterUpdated.password
+      return res.status(202).json(clientAfterUpdated)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
