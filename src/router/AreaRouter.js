@@ -1,10 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const AreaController = require('../controller/AreaController')
-const verifyToken = require('../middleware/verifyToken')
 const verifyIsAdmin = require('../middleware/verifyIsAdmin')
 
-router.get('/areas', verifyToken, AreaController.viewAreas)
+router.get('/areas', AreaController.viewAreas)
 
 router.use(verifyIsAdmin)
 router.post('/areas', AreaController.createArea)
