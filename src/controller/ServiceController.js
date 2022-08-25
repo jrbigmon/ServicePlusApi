@@ -6,7 +6,7 @@ const ServiceController = {
     try {
       const { id: clientId } = req.params
       const { serviceStatusId } = req.body
-      !serviceStatusId ? serviceStatusId = 3 : ''
+      !serviceStatusId ? serviceStatusId = 2 : ''
       const services = await Service.findAll({
         where: { clientId, serviceStatusId },
         include: [
@@ -34,8 +34,10 @@ const ServiceController = {
   viewAllServicesByProfessional: async (req, res) => {
     try {
       const { id: professionalId } = req.params
+      const { serviceStatusId } = req.body
+      !serviceStatusId ? serviceStatusId = 3 : ''
       const services = await Service.findAll({
-        where: { professionalId },
+        where: { professionalId, serviceStatusId },
         include: [
           {
             association: 'serviceStatus',
