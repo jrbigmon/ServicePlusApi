@@ -67,7 +67,6 @@ const ClientController = {
       } = req.body
       // const { avatar } = req.file
       const verifyIfExists = await Client.findByPk(id)
-      // console.log(verifyIfExists)
       if (!verifyIfExists) return res.status(400).json(DefaultErrors.NotExistsInDatase)
       const updatedClient = {
         ...verifyIfExists,
