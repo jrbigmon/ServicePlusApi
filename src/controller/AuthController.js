@@ -25,7 +25,8 @@ const AuthController = {
         {
           id: user.id,
           email: user.email,
-          isAdmin: typeUser == 'admin' ? 'enemySpots' : ' '
+          isAdmin: typeUser == 'admin' ? 'enemySpots' : ' ',
+          typeUser
         },
 
         process.env.JWT_KEY,
