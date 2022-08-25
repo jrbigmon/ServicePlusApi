@@ -8,9 +8,9 @@ const verifyToken = (req, res, next) => {
     const decode = jwt.verify(token, process.env.JWT_KEY)
 
     if(req.params.id){
-      if(decode.id !== req.params.id) return res.status(401).json(DefaultErrors.BadRequestByUser)
+      if(decode.id != req.params.id) return res.status(401).json(DefaultErrors.BadRequestByUser)
     }
-
+   
     req.user = decode
 
     return next()
