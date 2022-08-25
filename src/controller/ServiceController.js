@@ -78,17 +78,65 @@ const ServiceController = {
       if(service.serviceStatusId !== 1 || !servicePrice) return res.status(400).json(DefaultErrors.BadRequestByUser)
       const serviceUpdated = {
         ...service,
-        servicePrice
+        servicePrice,
+        serviceStatusId: 2
       }
-      await Service.update(serviceUpdated, {where: { id }})
+      await Service.update(serviceUpdated, { where: { id } })
       return res.json(serviceUpdated)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
   },
 
-  acceptBudgeted: async (req, res) => {
+  acceptBudget: async (req, res) => {
+    try {
+      const { id } = req.params
+      const service = await Service.findByPk(id)
+      if(!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+      if(service.serviceStatusId !== 2) return res.status(400).json(DefaultErrors.BadRequestByUser)
+      const serviceUpdated = {
+        ...service,
+        serviceStatusId: 3
+      }
+      await Service.update(serviceUpdated,  {where: { id } })
+      return res.json(serviceUpdated)
+    } catch (err) {
+      return res.status(500).json(DefaultErrors.DatabaseOut)
+    }
+  },
 
+  finishService: async (req, res) => {
+    try {
+      const { id } = req.params
+      const service = await Service.findByPk(id)
+      if(!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+      if(service.serviceStatusId !== 3) return res.status(400).json(DefaultErrors.BadRequestByUser)
+      const serviceUpdated = {
+        ...service,
+        serviceStatusId: 4
+      }
+      await Service.update(serviceUpdated, { where: { id } })
+      return res.json(serviceUpdated)
+    } catch (err) {
+      return res.status(500).json(DefaultErrors.DatabaseOut)
+    }
+  },
+
+  cancelService: async (req, res) => {
+    try {
+      const { id } = req.params
+      const service = await Service.findByPk(id)
+      if(!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+      if(service.serviceStatusId == 4 || service.serviceStatusId == 5) return res.status(400).json(DefaultErrors.BadRequestByUser)
+      const serviceUpdated = {
+        ...service,
+        serviceStatusId: 5
+      }
+      await Service.update(serviceUpdated, { where: { id } })
+      return res.json(serviceUpdated)
+    } catch (err) {
+      return res.status(500).json(DefaultErrors.DatabaseOut)
+    }
   }
 }
 
