@@ -4,11 +4,11 @@ const ServiceController = require('../controller/ServiceController')
 const verifyToken = require('../middleware/verifyToken')
 
 router.use(verifyToken)
-router.get('/services/client/:id', ServiceController.viewAllServicesByClient)
-router.post('/services/client/:id', ServiceController.viewAllServicesByClient)
+router.get('/services/client/:id', verifyToken, ServiceController.viewAllServicesByClient)
+router.post('/services/client/:id', verifyToken, ServiceController.viewAllServicesByClient)
 
-router.get('/services/professional/:id', ServiceController.viewAllServicesByProfessional)
-router.post('/services/professional/:id', ServiceController.viewAllServicesByProfessional)
+router.get('/services/professional/:id', verifyToken, ServiceController.viewAllServicesByProfessional)
+router.post('/services/professional/:id', verifyToken, ServiceController.viewAllServicesByProfessional)
 
 router.post('/services/budget', ServiceController.requestBudget)
 
