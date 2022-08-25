@@ -80,6 +80,7 @@ const ClientController = {
         telephone: telephone || verifyIfExists.telephone
       }
       await Client.update(updatedClient, { where: { id } })
+      delete updatedClient.password
       return res.status(202).json(updatedClient)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
