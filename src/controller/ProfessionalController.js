@@ -7,9 +7,11 @@ const ProfessionalController = {
     try {
       const { id } = req.params
       const professional = await Professional.findByPk(id, {
-        include: { association: 'area', attributes: ['name'] }
+        include: { association: 'area', attributes: ['name'] },
+        raw: true
       })
       if (!professional) return res.status(400).json(DefaultErrors.NotExistsInDatase)
+      delete professional.password
       return res.json(professional)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
@@ -37,7 +39,7 @@ const ProfessionalController = {
         postalCode,
         telephone,
         email,
-        password: bcrypt.hashSync(password, 10),
+        password: !password.trim() ? '' : bcrypt.hashSync(password, 10),
         areaId
       }
       for (const prop in newProfessional) {
