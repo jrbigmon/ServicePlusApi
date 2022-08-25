@@ -46,6 +46,7 @@ const ClientController = {
       const verifyIfExists = await Client.findOne({ where: { [Op.or]: { email, cpf } } })
       if (verifyIfExists) return res.status(409).json(DefaultErrors.ExistsInDatase)
       await Client.create(newClient)
+      delete newClient.password
       return res.status(201).json(newClient)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
