@@ -64,6 +64,7 @@ const ProfessionalController = {
       const verifyIfExists = await Professional.findByPk(id)
       if (!verifyIfExists) return res.status(400).json(DefaultErrors.NotExistsInDatase)
       const updatedProfessional = {
+        ...verifyIfExists,
         // avatar: avatar.file.filename || verifyIfExists.avatar,
         name: name || verifyIfExists.name,
         lastName: lastName || verifyIfExists.lastName,
