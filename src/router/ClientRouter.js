@@ -4,10 +4,8 @@ const ClientController = require('../controller/ClientController')
 const verifyToken = require('../middleware/verifyToken')
 
 router.post('/clients', ClientController.createClient)
-
-router.use(verifyToken)
-router.get('/clients/:id', ClientController.viewClient)
-router.put('/clients/:id', ClientController.updateClient)
-router.delete('/clients/:id', ClientController.deleteClient)
+router.get('/clients/:id', verifyToken, ClientController.viewClient)
+router.put('/clients/:id', verifyToken, ClientController.updateClient)
+router.delete('/clients/:id', verifyToken, ClientController.deleteClient)
 
 module.exports = router
