@@ -81,7 +81,6 @@ const ServiceController = {
       if(!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
       if(service.serviceStatusId !== 1 || !servicePrice) return res.status(400).json(DefaultErrors.BadRequestByUser)
       const serviceUpdated = {
-        ...service,
         servicePrice,
         serviceStatusId: 2
       }
@@ -99,7 +98,6 @@ const ServiceController = {
       if(!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
       if(service.serviceStatusId !== 2) return res.status(400).json(DefaultErrors.BadRequestByUser)
       const serviceUpdated = {
-        ...service,
         serviceStatusId: 3
       }
       await Service.update(serviceUpdated,  {where: { id } })
@@ -116,7 +114,6 @@ const ServiceController = {
       if(!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
       if(service.serviceStatusId !== 3) return res.status(400).json(DefaultErrors.BadRequestByUser)
       const serviceUpdated = {
-        ...service,
         serviceStatusId: 4
       }
       await Service.update(serviceUpdated, { where: { id } })
@@ -133,7 +130,6 @@ const ServiceController = {
       if(!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
       if(service.serviceStatusId == 4 || service.serviceStatusId == 5) return res.status(400).json(DefaultErrors.BadRequestByUser)
       const serviceUpdated = {
-        ...service,
         serviceStatusId: 5
       }
       await Service.update(serviceUpdated, { where: { id } })
