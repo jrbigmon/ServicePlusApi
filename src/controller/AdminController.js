@@ -24,11 +24,15 @@ const AdminController = {
   },
 
   removeAdmin: async (req, res) => {
-    const { id } = req.params
-    const verifyIfExists = await Admin.findByPk(id)
-    if (!verifyIfExists) return res.status(404).json(DefaultErrors.NotExistsInDatase)
-    await Admin.destroy({ where: { id } })
-    return res.status(204).json()
+    try {
+      const { id } = req.params
+      const verifyIfExists = await Admin.findByPk(id)
+      if (!verifyIfExists) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+      await Admin.destroy({ where: { id } })
+      return res.status(204).json()
+    } catch (err) {
+      return res.status(500).json(DefaultErrors.DatabaseOut)
+    }
   }
 }
 
