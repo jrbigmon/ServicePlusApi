@@ -69,7 +69,6 @@ const ClientController = {
       const verifyIfExists = await Client.findByPk(id)
       if (!verifyIfExists) return res.status(400).json(DefaultErrors.NotExistsInDatase)
       const updatedClient = {
-        ...verifyIfExists,
         // avatar: avatar.file.filename || verifyIfExists.avatar,
         name: name || verifyIfExists.name,
         lastName: lastName || verifyIfExists.lastName,
@@ -80,8 +79,7 @@ const ClientController = {
         telephone: telephone || verifyIfExists.telephone
       }
       await Client.update(updatedClient, { where: { id } })
-      delete updatedClient.password
-      return res.status(202).json(req.body)
+      return res.status(202).json(updatedClient)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
