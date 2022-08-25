@@ -85,7 +85,8 @@ const ServiceController = {
         serviceStatusId: 2
       }
       await Service.update(serviceUpdated, { where: { id } })
-      return res.json(serviceUpdated)
+      const serviceAfterUpdated = await Service.findByPk(id)
+      return res.json(serviceAfterUpdated)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
@@ -101,7 +102,8 @@ const ServiceController = {
         serviceStatusId: 3
       }
       await Service.update(serviceUpdated,  {where: { id } })
-      return res.json(serviceUpdated)
+      const serviceAfterUpdated = await Service.findByPk(id)
+      return res.json(serviceAfterUpdated)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
@@ -117,7 +119,8 @@ const ServiceController = {
         serviceStatusId: 4
       }
       await Service.update(serviceUpdated, { where: { id } })
-      return res.json(serviceUpdated)
+      const serviceAfterUpdated = await Service.findByPk(id)
+      return res.json(serviceAfterUpdated)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
@@ -133,7 +136,8 @@ const ServiceController = {
         serviceStatusId: 5
       }
       await Service.update(serviceUpdated, { where: { id } })
-      return res.json(serviceUpdated)
+      const serviceAfterUpdated = await Service.findByPk(id)
+      return res.json(serviceAfterUpdated)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
