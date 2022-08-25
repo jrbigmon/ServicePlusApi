@@ -59,6 +59,8 @@ const ProfessionalController = {
 
   updateProfessional: async (req, res) => {
     try {
+      const { typeUser } = req.user
+      if(typeUser !== 'professional') return res.status(401).json(DefaultErrors.BadRequestByUser)
       const { id } = req.params
       const { name, lastName, cpf, birthday, postalCode, telephone, aboutYou, areaId } = req.body
       // const { avatar } = req.file
@@ -87,6 +89,8 @@ const ProfessionalController = {
   deleteProfessional: async (req, res) => {
     try {
       const { id } = req.params
+      const { typeUser } = req.user
+      if(typeUser !== 'professional') return res.status(401).json(DefaultErrors.BadRequestByUser)
       const verifyIfExists = await Professional.findByPk(id)
       if (!verifyIfExists) return res.status(400).json(DefaultErrors.NotExistsInDatase)
       await Professional.destroy({ where: { id } })

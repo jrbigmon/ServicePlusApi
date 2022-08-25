@@ -56,6 +56,8 @@ const ClientController = {
   updateClient: async (req, res) => {
     try {
       const { id } = req.params
+      const { typeUser } = req.user
+      if(typeUser !== 'client') return res.status(401).json(DefaultErrors.BadRequestByUser)
       const {
         name,
         lastName,
@@ -90,6 +92,8 @@ const ClientController = {
   deleteClient: async (req, res) => {
     try {
       const { id } = req.params
+      const { typeUser } = req.user
+      if(typeUser !== 'client') return res.status(401).json(DefaultErrors.BadRequestByUser)
       const verifyIfExists = await Client.findByPk(id)
       if (!verifyIfExists) return res.status(400).json(DefaultErrors.NotExistsInDatase)
       await Client.destroy({ where: { id } })
