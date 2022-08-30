@@ -5,8 +5,10 @@ const ServiceController = {
   viewAllServicesByClient: async (req, res) => {
     try {
       const { id: clientId } = req.params
+      
       const { serviceStatusId } = req.body
       !serviceStatusId ? serviceStatusId = 2 : ''
+      
       const services = await Service.findAll({
         where: { clientId, serviceStatusId },
         include: [
@@ -24,7 +26,9 @@ const ServiceController = {
           }
         ]
       })
+      
       if (services.length === 0) return res.status(204).json()
+      
       return res.json(services)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
@@ -34,8 +38,11 @@ const ServiceController = {
   viewAllServicesByProfessional: async (req, res) => {
     try {
       const { id: professionalId } = req.params
+      
       const { serviceStatusId } = req.body
+      
       !serviceStatusId ? serviceStatusId = 3 : ''
+      
       const services = await Service.findAll({
         where: { professionalId, serviceStatusId },
         include: [
@@ -49,7 +56,9 @@ const ServiceController = {
           }
         ]
       })
+      
       if (services.length === 0) return res.status(204).json()
+      
       return res.json(services)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
@@ -59,14 +68,20 @@ const ServiceController = {
   requestBudget: async (req, res) => {
     try {
       const { clientId, professionalId, serviceDate, serviceDescription } = req.body
+      
       const verifyIfExists = await Professional.findByPk(professionalId)
+      
       if (!verifyIfExists) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+      
       const newService = { clientId, professionalId, serviceDate, serviceDescription }
+      
       for (const props in newService) {
         const propertyWithoutSpace = newService[props].trim()
         if (!propertyWithoutSpace) return res.status(404).json(DefaultErrors.EmptyFields)
       }
+      
       await Service.create(newService)
+      
       return res.status(201).json(newService)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
@@ -76,16 +91,24 @@ const ServiceController = {
   budgeted: async (req, res) => {
     try {
       const { id } = req.params
+      
       const { servicePrice } = req.body
+      
       const service = await Service.findByPk(id)
+      
       if (!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+      
       if (service.serviceStatusId !== 1 || !servicePrice) return res.status(400).json(DefaultErrors.BadRequestByUser)
+      
       const serviceUpdated = {
         servicePrice,
         serviceStatusId: 2
       }
+      
       await Service.update(serviceUpdated, { where: { id } })
+      
       const serviceAfterUpdated = await Service.findByPk(id)
+      
       return res.json(serviceAfterUpdated)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
