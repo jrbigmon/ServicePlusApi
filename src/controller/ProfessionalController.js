@@ -7,12 +7,16 @@ const ProfessionalController = {
   viewProfessional: async (req, res) => {
     try {
       const { id } = req.params
+      
       const professional = await Professional.findByPk(id, {
         include: { association: 'area', attributes: ['name'] },
         raw: true
       })
+      
       if (!professional) return res.status(400).json(DefaultErrors.NotExistsInDatase)
+      
       delete professional.password
+      
       return res.json(professional)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
@@ -32,6 +36,7 @@ const ProfessionalController = {
         password,
         areaId
       } = req.body
+      
       const newProfessional = {
         name,
         lastName,
@@ -43,14 +48,20 @@ const ProfessionalController = {
         password: !password.trim() ? '' : bcrypt.hashSync(password, 10),
         areaId
       }
+      
       for (const props in newProfessional) {
         const propertyWithoutSpace = newProfessional[props].trim()
         if (!propertyWithoutSpace) return res.status(404).json(DefaultErrors.EmptyFields)
       }
+      
       const verifyIfExists = await Professional.findOne({ where: { [Op.or]: { email, cpf } } })
+      
       if (verifyIfExists) return res.status(409).json(DefaultErrors.ExistsInDatase)
+      
       await Professional.create(newProfessional)
+      
       delete newProfessional.password
+      
       return res.status(201).json(newProfessional)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
@@ -60,12 +71,17 @@ const ProfessionalController = {
   updateProfessional: async (req, res) => {
     try {
       const { typeUser } = req.user
+      
       if (typeUser !== 'professional') return res.status(401).json(DefaultErrors.BadRequestByUser)
+      
       const { id } = req.params
+      
       const { name, lastName, cpf, birthday, postalCode, telephone, aboutYou, areaId } = req.body
       // const { avatar } = req.file
       const verifyIfExists = await Professional.findByPk(id)
+      
       if (!verifyIfExists) return res.status(400).json(DefaultErrors.NotExistsInDatase)
+      
       const updatedProfessional = {
         // avatar: avatar.file.filename || verifyIfExists.avatar,
         name: name || verifyIfExists.name,
@@ -77,9 +93,13 @@ const ProfessionalController = {
         aboutYou: aboutYou || verifyIfExists.aboutYou,
         areaId: areaId || verifyIfExists.areaId
       }
+      
       await Professional.update(updatedProfessional, { where: { id } })
+      
       const professionalAfterUpdated = await Professional.findByPk(id, { raw: true })
+      
       delete professionalAfterUpdated.password
+      
       return res.status(202).json(professionalAfterUpdated)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
@@ -89,15 +109,22 @@ const ProfessionalController = {
   deleteProfessional: async (req, res) => {
     try {
       const { id } = req.params
+      
       const { typeUser } = req.user
+      
       if (typeUser !== 'professional') return res.status(401).json(DefaultErrors.BadRequestByUser)
+      
       const verifyIfExists = await Professional.findByPk(id)
+      
       if (!verifyIfExists) return res.status(400).json(DefaultErrors.NotExistsInDatase)
+      
       await Professional.destroy({ where: { id } })
+      
       return res.status(204).json()
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
   }
 }
+
 module.exports = ProfessionalController
