@@ -8,9 +8,8 @@ const AuthController = {
     try {
       const { email, password } = req.body
 
-      
       const typeUser = req.query.user
-      
+    
       let user
       
       if (typeUser == 'client') {
