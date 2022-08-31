@@ -83,19 +83,22 @@ const ServiceController = {
 
   requestBudget: async (req, res) => {
     try {
-      const { clientId, professionalId, serviceDate, serviceDescription } = req.body
-      
-      const verifyIfExists = await Professional.findByPk(professionalId)
+      const { id: clientId } = req.user
+
+      const { professionalId, serviceDate, serviceDescription } = req.body
+
+      const verifyIfExists = await Professional.findByPk(parseInt(professionalId))
       
       if (!verifyIfExists) return res.status(404).json(DefaultErrors.NotExistsInDatase)
       
-      const newService = { clientId, professionalId, serviceDate, serviceDescription }
+      const newService = { clientId, professionalId: parseInt(professionalId), serviceDate, serviceDescription }
       
       for (const props in newService) {
-        const propertyWithoutSpace = newService[props].trim()
+        let propertyWithoutSpace
+        typeof newService[props] == "number" ? propertyWithoutSpace = newService[props] : propertyWithoutSpace = newService[props].trim()
         if (!propertyWithoutSpace) return res.status(404).json(DefaultErrors.EmptyFields)
       }
-      
+
       await Service.create(newService)
       
       return res.status(201).json(newService)
