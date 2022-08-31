@@ -16,6 +16,8 @@ const AreaController = {
     try {
       const { name } = req.body
 
+      if(!name) return res.status(404).json(DefaultErrors.EmptyFields)
+
       const verifyIfExists = await Area.findOne({ where: { name } })
 
       if (verifyIfExists) return res.status(409).json(DefaultErrors.ExistsInDatase)
@@ -33,14 +35,18 @@ const AreaController = {
       const { id } = req.params
 
       const { name } = req.body
-      
+
+      if(!name) return res.status(404).json(DefaultErrors.EmptyFields)
+
       const verifyIfExists = await Area.findByPk(id)
       
       if (!verifyIfExists) return res.status(404).json(DefaultErrors.NotExistsInDatase)
       
-      const areaUpdated = await Area.update({ name }, { where: { id } })
+      await Area.update({ name }, { where: { id } })
+
+      const areaAfterUpdate = await Area.findByPk(id)
       
-      return res.json(areaUpdated)
+      return res.json(areaAfterUpdate)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
