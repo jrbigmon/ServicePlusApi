@@ -4,10 +4,8 @@ const AreaController = require('../controller/AreaController')
 const verifyIsAdmin = require('../middleware/verifyIsAdmin')
 
 router.get('/areas', AreaController.viewAreas)
-
-router.use(verifyIsAdmin)
-router.post('/areas', AreaController.createArea)
-router.put('/areas/:id', AreaController.updateArea)
-router.delete('/areas/:id', AreaController.removeArea)
+router.post('/areas', verifyIsAdmin, AreaController.createArea)
+router.put('/areas/:id', verifyIsAdmin, AreaController.updateArea)
+router.delete('/areas/:id', verifyIsAdmin, AreaController.removeArea)
 
 module.exports = router
