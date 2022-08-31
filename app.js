@@ -20,11 +20,11 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cors())
 
 app.use(uriBase, AuthRouter)
+app.use(uriBase, ServiceRouter)
+app.use(uriBase, AreaRouter)
+app.use(uriBase, ServiceStatus)
 app.use(uriBase, ClientRouter)
 app.use(uriBase, ProfessionalRouter)
-app.use(uriBase, ServiceRouter)
-app.use(uriBase, ServiceStatus)
-app.use(uriBase, AreaRouter)
 app.use(uriBase, AdminRouter)
 
 app.use((req, res, next) => {
