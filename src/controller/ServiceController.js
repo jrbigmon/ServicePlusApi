@@ -1,16 +1,26 @@
 const { Service, Professional } = require('../model')
 const DefaultErrors = require('../Errors/DefaultErrors')
+const { Op } = require('sequelize')
 
 const ServiceController = {
   viewAllServicesByClient: async (req, res) => {
     try {
       const { id: clientId } = req.params
       
-      const { serviceStatusId } = req.body
-      !serviceStatusId ? serviceStatusId = 2 : ''
+      const { 
+        status: serviceStatusId, 
+        date: serviceDate, 
+        price: servicePrice,
+        order 
+      } = req.query
+      
+      serviceStatusId = serviceStatusId || 3
+      serviceDate = serviceDate || ''
+      servicePrice = servicePrice || ''
+      order = order || 'ASC'
       
       const services = await Service.findAll({
-        where: { clientId, serviceStatusId },
+        where: { clientId, serviceStatusId, servicePrice, serviceDate: { [Op.gt] : serviceDate } },
         include: [
           {
             association: 'serviceStatus',
@@ -19,6 +29,7 @@ const ServiceController = {
           {
             association: 'professional',
             attributes: ['name', 'lastName', 'avatar', 'areaId'],
+            order: [['name', order]],
             include: {
               association: 'area',
               attributes: ['name']
@@ -26,8 +37,6 @@ const ServiceController = {
           }
         ]
       })
-      
-      if (services.length === 0) return res.status(204).json()
       
       return res.json(services)
     } catch (err) {
@@ -39,12 +48,20 @@ const ServiceController = {
     try {
       const { id: professionalId } = req.params
       
-      const { serviceStatusId } = req.body
+      const { 
+        status: serviceStatusId, 
+        date: serviceDate, 
+        price: servicePrice,
+        order 
+      } = req.query
       
-      !serviceStatusId ? serviceStatusId = 3 : ''
+      serviceStatusId = serviceStatusId || 3
+      serviceDate = serviceDate || ''
+      servicePrice = servicePrice || ''
+      order = order || 'ASC'
       
       const services = await Service.findAll({
-        where: { professionalId, serviceStatusId },
+        where: { professionalId, serviceStatusId, servicePrice, serviceDate: { [Op.gt] : serviceDate }  },
         include: [
           {
             association: 'serviceStatus',
@@ -52,12 +69,11 @@ const ServiceController = {
           },
           {
             association: 'client',
-            attributes: ['avatar', 'name', 'lastName', 'cep', 'numberAddress']
+            attributes: ['avatar', 'name', 'lastName', 'cep', 'numberAddress'],
+            order: [['name', order]],
           }
         ]
       })
-      
-      if (services.length === 0) return res.status(204).json()
       
       return res.json(services)
     } catch (err) {
@@ -124,6 +140,7 @@ const ServiceController = {
       if (!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
       
       if (service.serviceStatusId !== 2) return res.status(400).json(DefaultErrors.BadRequestByUser)
+      
       const serviceUpdated = {
         serviceStatusId: 3
       }
