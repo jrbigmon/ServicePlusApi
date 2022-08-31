@@ -42,6 +42,10 @@ const AreaController = {
       
       if (!verifyIfExists) return res.status(404).json(DefaultErrors.NotExistsInDatase)
       
+      const alreadyRegistered = await Area.findOne({ where: { name } })
+      
+      if (alreadyRegistered) return res.status(404).json(DefaultErrors.ExistsInDatase)
+      
       await Area.update({ name }, { where: { id } })
 
       const areaAfterUpdate = await Area.findByPk(id)
