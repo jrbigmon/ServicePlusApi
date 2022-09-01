@@ -70,13 +70,13 @@ module.exports = (sequelize, DataTypes) => {
 
   Client.associate = models => {
     Client.belongsToMany(models.Professional, {
-      foreignKey: 'cliendId',
+      foreignKey: 'clientId',
       otherKey: 'professionalId',
       through: models.Service,
       as: 'serviceByClient'
     })
     Client.hasMany(models.Service, {
-      foreignKey: 'cliendId',
+      foreignKey: 'clientId',
       as: 'servicesByClient'
     })
   }
