@@ -20,22 +20,25 @@ const ServiceController = {
       order = order || 'ASC'
       
       const services = await Service.findAll({
-        where: { clientId, serviceStatusId, servicePrice:{ [Op.gte] : price }, serviceDate: { [Op.gt] : date } },
+        where: { clientId, serviceStatusId, serviceDate: { [Op.gte] : date }, servicePrice:{ [Op.gte] : price } },
+        attributes: ['id', 'serviceDate', 'servicePrice', 'serviceDescription'],
         include: [
-          {
-              association: 'professional',
-              attributes: ['id', 'name', 'latName'],
-              
-              order: [['name', order]],
+            {
+                association: 'professional',
+                attributes: ['id', 'name', 'lastName', 'avatar'],
 
-              include: 'area',
-              attributes: ['name']
-          },
-          {
-              association: 'serviceStatus',
-              attributes: ['name']
-          }
-      ]
+                order: [['name', order]],
+
+                include: {
+                    association: 'area',
+                    attributes: ['name']
+                }
+            },
+            {
+                association: 'serviceStatus',
+                attributes: ['name']
+            }
+        ]
       })
       
       return res.json(services)
@@ -50,27 +53,29 @@ const ServiceController = {
       
       const { 
         status: serviceStatusId, 
-        date: serviceDate, 
-        price: servicePrice,
+        date, 
+        price,
         order 
       } = req.query
       
       serviceStatusId = serviceStatusId || 3
-      serviceDate = serviceDate || ''
-      servicePrice = servicePrice || ''
+      date = date || ''
+      price = price || ''
       order = order || 'ASC'
       
       const services = await Service.findAll({
-        where: { professionalId, serviceStatusId, servicePrice, serviceDate: { [Op.gt] : serviceDate }  },
+        where: { professionalId, serviceStatusId, servicePrice:{ [Op.gte] : price }, serviceDate: { [Op.gte] : date } },
+        attributes: ['id', 'serviceDate', 'servicePrice', 'serviceDescription'],
         include: [
           {
-            association: 'serviceStatus',
-            attributes: ['name']
+              association: 'client',
+              attributes: ['id', 'name', 'lastName', 'avatar', 'postalCode'],
+              
+              order: [['name', order]],
           },
           {
-            association: 'client',
-            attributes: ['avatar', 'name', 'lastName', 'cep', 'numberAddress'],
-            order: [['name', order]],
+              association: 'serviceStatus',
+              attributes: ['name']
           }
         ]
       })
