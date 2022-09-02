@@ -91,10 +91,6 @@ const ServiceController = {
       const { id: clientId } = req.user
 
       const { professionalId, serviceDate, serviceDescription } = req.body
-
-      const verifyIfExists = await Professional.findByPk(parseInt(professionalId))
-      
-      if (!verifyIfExists) return res.status(404).json(DefaultErrors.NotExistsInDatase)
       
       const newService = { clientId, professionalId: parseInt(professionalId), serviceDate, serviceDescription }
       
@@ -103,7 +99,11 @@ const ServiceController = {
         typeof newService[props] == "number" ? propertyWithoutSpace = newService[props] : propertyWithoutSpace = newService[props].trim()
         if (!propertyWithoutSpace) return res.status(404).json(DefaultErrors.EmptyFields)
       }
-
+      
+      const verifyIfExists = await Professional.findByPk(parseInt(professionalId))
+      
+      if (!verifyIfExists) return res.status(404).json(DefaultErrors.NotExistsInDatase)
+      
       await Service.create(newService)
       
       return res.status(201).json(newService)
