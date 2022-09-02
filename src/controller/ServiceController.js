@@ -9,33 +9,33 @@ const ServiceController = {
       
       const { 
         status: serviceStatusId, 
-        date: serviceDate, 
-        price: servicePrice,
+        date, 
+        price,
         order 
       } = req.query
       
-      serviceStatusId = serviceStatusId || 3
-      serviceDate = serviceDate || ''
-      servicePrice = servicePrice || ''
+      serviceStatusId = serviceStatusId || 2
+      date = date || ''
+      price = price || ''
       order = order || 'ASC'
       
       const services = await Service.findAll({
-        where: { clientId, serviceStatusId, servicePrice, serviceDate: { [Op.gt] : serviceDate } },
+        where: { clientId, serviceStatusId, servicePrice:{ [Op.gte] : price }, serviceDate: { [Op.gt] : date } },
         include: [
           {
-            association: 'serviceStatus',
-            attributes: ['name']
+              association: 'professional',
+              attributes: ['id', 'name', 'latName'],
+              
+              order: [['name', order]],
+
+              include: 'area',
+              attributes: ['name']
           },
           {
-            association: 'professional',
-            attributes: ['name', 'lastName', 'avatar', 'areaId'],
-            order: [['name', order]],
-            include: {
-              association: 'area',
+              association: 'serviceStatus',
               attributes: ['name']
-            }
           }
-        ]
+      ]
       })
       
       return res.json(services)
