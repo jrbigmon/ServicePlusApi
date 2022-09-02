@@ -112,18 +112,20 @@ const ServiceController = {
       const { id } = req.params
       
       const { servicePrice } = req.body
+     
+      if (!servicePrice) return res.status(404).json(DefaultErrors.EmptyFields)
       
-      const service = await Service.findByPk(id)
-      
+      const service = await Service.findByPk(parseInt(id))
+     
       if (!service) return res.status(404).json(DefaultErrors.NotExistsInDatase)
       
-      if (service.serviceStatusId !== 1 || !servicePrice) return res.status(400).json(DefaultErrors.BadRequestByUser)
+      if (service.serviceStatusId !== 1) return res.status(400).json(DefaultErrors.BadRequestByUser)
       
       const serviceUpdated = {
-        servicePrice,
+        servicePrice: parseFloat(servicePrice),
         serviceStatusId: 2
       }
-      
+    
       await Service.update(serviceUpdated, { where: { id } })
       
       const serviceAfterUpdated = await Service.findByPk(id)
