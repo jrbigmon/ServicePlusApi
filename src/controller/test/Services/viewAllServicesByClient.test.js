@@ -5,16 +5,18 @@ const { Op } = require('sequelize')
 async function getServicesByClientId (clientId, serviceStatusId = 2, date = '', price = '', order = 'ASC') {
     const services = await Service.findAll({
         where: { clientId, serviceStatusId, serviceDate: { [Op.gte] : date }, servicePrice:{ [Op.gte] : price } },
-        attributes: ['serviceDate', 'servicePrice', 'serviceDescription'],
+        attributes: ['id', 'serviceDate', 'servicePrice', 'serviceDescription'],
         include: [
             {
                 association: 'professional',
-                attributes: ['id', 'name', 'latName'],
-                
+                attributes: ['id', 'name', 'lastName', 'avatar'],
+
                 order: [['name', order]],
 
-                include: 'area',
-                attributes: ['name']
+                include: {
+                    association: 'area',
+                    attributes: ['name']
+                }
             },
             {
                 association: 'serviceStatus',
@@ -28,8 +30,10 @@ async function getServicesByClientId (clientId, serviceStatusId = 2, date = '', 
             ['date', service.serviceDate], 
             ['price', service.servicePrice], 
             ['description' , service.serviceDescription], 
+            ['professional avatar' , service.professional.avatar], 
             ['professional name' , service.professional.name], 
-            ['professional last name' , service.professional.lasName], 
+            ['professional last name' , service.professional.lastName], 
+            ['professional area' , service.professional.area.name], 
             ['service status' , service.serviceStatus.name]
         ])
     })
