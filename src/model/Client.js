@@ -26,8 +26,7 @@ module.exports = (sequelize, DataTypes) => {
 
     cpf: {
       type: DataTypes.STRING(25),
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
 
     birthday: {
@@ -54,8 +53,7 @@ module.exports = (sequelize, DataTypes) => {
 
     email: {
       type: DataTypes.STRING(200),
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
 
     password: {
