@@ -46,11 +46,11 @@ const ProfessionalController = {
         telephone,
         email,
         password: !password.trim() ? '' : bcrypt.hashSync(password, 10),
-        areaId
+        areaId: parseInt(areaId)
       }
       
       for (const props in newProfessional) {
-        const propertyWithoutSpace = newProfessional[props].trim()
+        typeof newProfessional[props] == "number" ? propertyWithoutSpace = newProfessional[props] : propertyWithoutSpace = newProfessional[props].trim()
         if (!propertyWithoutSpace) return res.status(404).json(DefaultErrors.EmptyFields)
       }
       
@@ -64,6 +64,7 @@ const ProfessionalController = {
       
       return res.status(201).json(newProfessional)
     } catch (err) {
+      console.log(err)
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
   },
