@@ -38,7 +38,8 @@ module.exports = (sequelize, DataTypes) => {
   },
   {
     tableName: 'admin',
-    timestamps: true
+    timestamps: true,
+    paranoid: true
   })
 
   return Admin
