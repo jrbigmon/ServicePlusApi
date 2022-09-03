@@ -82,7 +82,7 @@ module.exports = (sequelize, DataTypes) => {
   {
     tableName: 'clients',
     timestamps: true,
-    // paranoid: true
+    paranoid: true
   })
 
   Client.associate = models => {
