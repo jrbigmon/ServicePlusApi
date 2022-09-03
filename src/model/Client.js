@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
   },
   {
     tableName: 'clients',
-    timestamps: false
+    timestamps: true
   })
 
   Client.associate = models => {

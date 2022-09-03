@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   },
   {
     tableName: 'service_status',
-    timestamps: false
+    timestamps: true
   })
 
   ServiceStatus.associate = models => {

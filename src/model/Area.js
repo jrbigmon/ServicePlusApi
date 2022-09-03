@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   },
   {
     tableName: 'areas',
-    timestamps: false
+    timestamps: true
   })
 
   Area.associate = models => {

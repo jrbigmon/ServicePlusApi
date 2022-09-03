@@ -72,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
   },
   {
     tableName: 'professionals',
-    timestamps: false
+    timestamps: true
   })
 
   Professional.associate = models => {

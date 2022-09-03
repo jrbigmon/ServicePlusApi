@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
   },
   {
     tableName: 'services',
-    timestamps: false
+    timestamps: true
   })
 
   Service.associate = models => {
