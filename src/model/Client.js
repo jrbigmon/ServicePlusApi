@@ -61,6 +61,24 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING(400),
       allowNull: false
+    },
+
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'created_at'
+    },
+
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'updated_at'
+    },
+
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'updated_at'
     }
   },
   {

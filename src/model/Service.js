@@ -46,6 +46,24 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 1,
       field: 'service_status_id'
+    },
+
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'created_at'
+    },
+
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'updated_at'
+    },
+
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'updated_at'
     }
   },
   {

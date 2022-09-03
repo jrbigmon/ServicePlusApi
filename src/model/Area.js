@@ -10,8 +10,25 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING(200),
       allowNull: false
-    }
+    },
 
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'created_at'
+    },
+
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'updated_at'
+    },
+
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'updated_at'
+    }
   },
   {
     tableName: 'areas',

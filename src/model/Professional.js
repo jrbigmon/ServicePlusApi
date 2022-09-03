@@ -68,6 +68,24 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       foreignKey: true,
       field: 'area_id'
+    },
+
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'created_at'
+    },
+
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'updated_at'
+    },
+
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'updated_at'
     }
   },
   {
