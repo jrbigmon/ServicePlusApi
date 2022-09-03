@@ -76,13 +76,13 @@ module.exports = (sequelize, DataTypes) => {
     deletedAt: {
       type: DataTypes.DATE,
       allowNull: true,
-      field: 'updated_at'
+      field: 'deleted_at'
     }
   },
   {
     tableName: 'clients',
     timestamps: true,
-    paranoid: true
+    // paranoid: true
   })
 
   Client.associate = models => {
