@@ -1,4 +1,4 @@
-const { Service } = require('../../../model')
+const { Service } = require('../../model')
 const { Op } = require('sequelize')
 
 // Test to - Get service by status service and clientId 

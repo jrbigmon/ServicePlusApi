@@ -1,4 +1,4 @@
-const { Service, Professional } = require('../../../model')
+const { Service, Professional } = require('../../model')
 
 async function requestBudget (clientId, professionalId, serviceDate, serviceDescription) {
     const newService = {

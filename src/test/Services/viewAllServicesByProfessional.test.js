@@ -1,4 +1,4 @@
-const { Service } = require('../../../model')
+const { Service } = require('../../model')
 const { Op } = require('sequelize')
 
 async function getAllServicesByProfessional(professionalId, serviceStatusId = 3, date = '', price = '', order = 'ASC') {
