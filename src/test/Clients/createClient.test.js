@@ -21,19 +21,20 @@ async function createClient (props) {
     }
     const verifyIfExists = await Client.findOne({ where: { [Op.or] : { email, cpf } } })
     if(verifyIfExists) return console.log('Exists in database')
-    const clientAfterCreate = await Client.create(newClient)
-    return console.log(clientAfterCreate)
+    await Client.create(newClient)
+    delete newClient.password
+    return console.log(newClient)
 }
 
 const newClient = {
     name: 'Vagner',
     lastName: 'Siqueira',
-    cpf: '47744477714',
+    cpf: '47223888814',
     birthday: '15/05/1997', 
     postalCode: '08830050',
     numberAddress: '218',
     telephone: '11954558855',
-    email: 'junior@mail.com',
+    email: 'vagner@mail.com',
     password: '123456'
 }
 
