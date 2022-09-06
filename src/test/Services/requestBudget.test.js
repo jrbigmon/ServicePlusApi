@@ -22,7 +22,7 @@ async function requestBudget (clientId, professionalId, serviceDate, serviceDesc
     return console.log(serviceAfterCreate)
 }
 const clientId = 2
-const professionalId = 3
+const professionalId = 2
 const serviceDate = '2022-09-03'
 const serviceDescription = 'Test create service'
 const propsRequest = [clientId, professionalId, serviceDate, serviceDescription]
