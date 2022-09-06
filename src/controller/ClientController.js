@@ -37,12 +37,12 @@ const ClientController = {
       const newClient = {
         name,
         lastName,
-        cpf,
-        birthday,
-        postalCode,
+        cpf: cpf.replace(/\./gi, '').replace(/\-/, ''),
+        birthday, 
+        postalCode: postalCode.replace(/\-/, ''),
         numberAddress,
-        telephone,
-        email,
+        telephone: telephone.replace(/\(/, '').replace(/\)/, ''),
+        email: email ? email.toLowerCase() : '',
         password: !password.trim() ? '' : bcrypt.hashSync(password, 10)
       }
       
