@@ -2,16 +2,17 @@ const { Client } = require('../../model')
 const bcrypt = require('bcryptjs')
 const { Op } = require('sequelize')
 
-async function createClient (name, lastName, cpf, birthday, postalCode, numberAddress, telephone, email, password) {
+async function createClient (props) {
+    const { name, lastName, cpf, birthday, postalCode, numberAddress, telephone, email, password } = props
     const newClient = { 
         name,
         lastName,
-        cpf,
+        cpf: cpf.replace(/\./gi, '').replace(/\-/, ''),
         birthday, 
-        postalCode,
+        postalCode: postalCode.replace(/\-/, ''),
         numberAddress,
-        telephone,
-        email,
+        telephone: telephone.replace(/\(/, '').replace(/\)/, ''),
+        email: email ? email.toLowerCase() : '',
         password: !password.trim() ? '' : bcrypt.hashSync(password, 10)
     }
     for (const props in newClient) {
@@ -24,27 +25,16 @@ async function createClient (name, lastName, cpf, birthday, postalCode, numberAd
     return console.log(clientAfterCreate)
 }
 
-const 
-    name = 'Vagner',
-    lastName = 'Siqueira',
-    cpf = '47744477714',
-    birthday = '15/05/1997', 
-    postalCode = '08830050',
-    numberAddress = '218',
-    telephone = '11954558855',
-    email = 'junior@mail.com',
-    password = '123456'
+const newClient = {
+    name: 'Vagner',
+    lastName: 'Siqueira',
+    cpf: '47744477714',
+    birthday: '15/05/1997', 
+    postalCode: '08830050',
+    numberAddress: '218',
+    telephone: '11954558855',
+    email: 'junior@mail.com',
+    password: '123456'
+}
 
-const newClient = [
-    name,
-    lastName,
-    cpf,
-    birthday,
-    postalCode,
-    numberAddress,
-    telephone,
-    email,
-    password
-]
-
-createClient(...newClient)   
+createClient(newClient)   

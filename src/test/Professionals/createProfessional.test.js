@@ -7,12 +7,12 @@ async function createProfessional (props) {
     const newProfessional = { 
         name, 
         lastName, 
-        cpf: cpf.replace(/\./gi, ''), 
+        cpf: cpf.replace(/\./gi, '').replace(/\-/, ''), 
         birthday, 
         postalCode: postalCode.replace(/\-/, ''), 
         telephone: telephone.replace(/\(/, '').replace(/\)/, ''), 
         email: email ? email.toLowerCase() : '', 
-        password: password ? bcrypt.hashSync(password, 10) : '', 
+        password: password.trim() ? bcrypt.hashSync(password, 10) : '', 
         areaId: parseInt(areaId)  
     }
     for (const props in newProfessional) {
@@ -28,9 +28,9 @@ async function createProfessional (props) {
 const newUser = {
     name: 'vagner', 
     lastName: 'Siqueira', 
-    cpf: '179.884.777.44', 
+    cpf: '472.238.888-14', 
     birthday: '29/10/1997', 
-    postalCode: '08830-050', 
+    postalCode: '08830050', 
     telephone: '(11)956542085', 
     email: 'vagnerjr@mail.com', 
     password: '123456', 
