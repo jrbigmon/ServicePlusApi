@@ -38,14 +38,14 @@ const ProfessionalController = {
       } = req.body
       
       const newProfessional = {
-        name,
-        lastName,
-        cpf,
-        birthday,
-        postalCode,
-        telephone,
-        email,
-        password: !password.trim() ? '' : bcrypt.hashSync(password, 10),
+        name, 
+        lastName, 
+        cpf: cpf.replace(/\./gi, ''), 
+        birthday, 
+        postalCode: postalCode.replace(/\-/, ''), 
+        telephone: telephone.replace(/\(/, '').replace(/\)/, ''), 
+        email: email ? email.toLowerCase() : '', 
+        password: password ? bcrypt.hashSync(password, 10) : '', 
         areaId: parseInt(areaId)
       }
       
