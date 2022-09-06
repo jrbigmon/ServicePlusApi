@@ -40,7 +40,7 @@ const ProfessionalController = {
       const newProfessional = {
         name, 
         lastName, 
-        cpf: cpf.replace(/\./gi, ''), 
+        cpf: cpf.replace(/\./gi, '').replace(/\-/, ''), 
         birthday, 
         postalCode: postalCode.replace(/\-/, ''), 
         telephone: telephone.replace(/\(/, '').replace(/\)/, ''), 
