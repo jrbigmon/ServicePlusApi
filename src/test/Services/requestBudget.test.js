@@ -1,6 +1,7 @@
 const { Service, Professional } = require('../../model')
 
-async function requestBudget (clientId, professionalId, serviceDate, serviceDescription) {
+async function requestBudget (props) {
+    const {clientId, professionalId, serviceDate, serviceDescription } = props
     const newService = {
         clientId: parseInt(clientId),
         professionalId: parseInt(professionalId),
@@ -8,7 +9,6 @@ async function requestBudget (clientId, professionalId, serviceDate, serviceDesc
         serviceDescription 
     }
     for (let props in newService) {
-        let propertyWithoutSpace
         typeof newService[props] == "number" ? propertyWithoutSpace = newService[props] : propertyWithoutSpace = newService[props].trim()
         if (!propertyWithoutSpace) return console.log('Has empty fields')
     }
@@ -21,9 +21,11 @@ async function requestBudget (clientId, professionalId, serviceDate, serviceDesc
 
     return console.log(serviceAfterCreate)
 }
-const clientId = 2
-const professionalId = 2
-const serviceDate = '2022-09-03'
-const serviceDescription = 'Test create service'
-const propsRequest = [clientId, professionalId, serviceDate, serviceDescription]
-requestBudget(...propsRequest)
+const newService = {
+    clientId: 4,
+    professionalId: 1,
+    serviceDate: new Date().toDateString(),
+    serviceDescription: 'Test budget service'
+}
+console.log(newService)
+requestBudget(newService)
