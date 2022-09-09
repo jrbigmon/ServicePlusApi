@@ -8,7 +8,7 @@ const AdminController = {
       const { email, password } = req.body
 
       const newAdmin = {
-        email,
+        email: email ? email.toLowerCase() : '',
         password: !password.trim() ? '' : bcrypt.hashSync(password, 10)
       }
 
