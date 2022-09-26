@@ -7,7 +7,7 @@ async function createClient (props) {
     const newClient = { 
         name,
         lastName,
-        cpf: cpf.replace(/\./gi, '').replace(/\-/, ''),
+        cpf: cpf.replace(/\./gi, '').replace(/\-/gi, ''),
         birthday, 
         postalCode: postalCode.replace(/\-/, ''),
         numberAddress,
@@ -29,12 +29,12 @@ async function createClient (props) {
 const newClient = {
     name: 'Vagner',
     lastName: 'Siqueira',
-    cpf: '47223888814',
+    cpf: '175-887-554-13',
     birthday: '15/05/1997', 
-    postalCode: '08830050',
+    postalCode: '08830-050',
     numberAddress: '218',
     telephone: '11954558855',
-    email: 'vagner@mail.com',
+    email: 'paulo2@mail.com',
     password: '123456'
 }
 
