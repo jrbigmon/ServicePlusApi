@@ -96,6 +96,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'clientId',
       as: 'servicesByClient'
     })
+    Client.hasMany(models.EvaluationHasProfessional, {
+      foreignKey: 'clientId',
+      as: 'evaluationsProfessionals'
+    })
   }
 
   return Client
