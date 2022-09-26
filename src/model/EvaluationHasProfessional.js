@@ -25,6 +25,24 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER(10),
         allowNull: true
       },
+
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: 'created_at'
+      },
+  
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: 'updated_at'
+      },
+  
+      deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: 'deleted_at'
+      }
     }, 
     {
       tableName: 'evaluations_has_professionals',
