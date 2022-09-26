@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const EvaluationHasProfessional = sequelize.define('EvaluationHasProfessional', {
-        id: {
+      id: {
         type: DataTypes.INTEGER(10),
         primaryKey: true,
         autoIncrement: true,
@@ -57,5 +57,5 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
 
-    module.exports = EvaluationHasProfessional
+    return EvaluationHasProfessional
 }
