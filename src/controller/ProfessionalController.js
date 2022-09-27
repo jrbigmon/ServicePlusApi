@@ -7,65 +7,32 @@ const calcRatingProfessional = require('../util/calcRatingProfessional')
 const ProfessionalController = {
   getHigherRatingsProfessionals: async (req, res) => {
     try {
-      let { area: areaId, page, rating } = req.query
+      let { area: areaId, page } = req.query
 
       if(!areaId){
         const areas = await Area.findAll()
         areaId = areas.map(area => area.id)
       }
 
-      const numberPage = page || 1
-
-      const offset = numberPage * 10 - 10
+      page = page || 1
+      const offset = page * 10 - 10
 
       const professionals = await Professional.findAll({
-        raw: true,
+        where: { areaId },
         limit: 10,
         offset,
         attributes: {
           exclude: ['password', 'cpf', 'email', 'createdAt', 'updatedAt', 'deletedAt']
         },
-        where: { areaId },
         include: [
           {
             association: 'area',
             attributes: ['name']
-          },
-          {
-            association: 'evaluation',
-            attributes: [
-              [sequelize.fn('sum', sequelize.col('assessment')), '_sum'],
-              [sequelize.fn('count', sequelize.col('assessment')), '_count']
-            ],
-            orderBy: ['assessment', 'DESC']
           }
         ]
       })
 
-      if (professionals[0].id == null) return res.json([])
-
-      if(rating){
-        return res.json(professionals.map(professional => {
-          const sum = professional['evaluation._sum']
-          const count = professional['evaluation._count']
-          const evaluation = calcRatingProfessional(sum, count)
-          if(evaluation == rating){
-            return {
-              ...professional,
-              evaluation
-            }
-          }
-        }))
-      }
-
-      return res.json(professionals.map(professional => {
-        const sum = professional['evaluation._sum']
-        const count = professional['evaluation._count']
-        return {
-          ...professional,
-          evaluation: calcRatingProfessional(sum, count),
-        }
-      }))
+      return res.json(professionals)
     }
     catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
@@ -137,7 +104,7 @@ const ProfessionalController = {
       
       for (const props in newProfessional) {
         typeof newProfessional[props] == "number" ? propertyWithoutSpace = newProfessional[props] : propertyWithoutSpace = newProfessional[props].trim()
-        if (!propertyWithoutSpace) return res.status(404).json(DefaultErrors.EmptyFields)
+        if (!propertyWithoutSpace) return res.status(400).json(DefaultErrors.EmptyFields)
       }
       
       const verifyIfExists = await Professional.findOne({ where: { [Op.or]: { email, cpf } } })
@@ -187,9 +154,9 @@ const ProfessionalController = {
       
       await Professional.update(updatedProfessional, { where: { id } })
       
-      const professionalAfterUpdated = await Professional.findByPk(id, { raw: true })
-      
-      delete professionalAfterUpdated.password
+      const professionalAfterUpdated = await Professional.findByPk(id, { 
+        attributes: { excluede: ['password'] }
+      })
       
       return res.status(202).json(professionalAfterUpdated)
     } catch (err) {
