@@ -59,11 +59,11 @@ const ProfessionalController = {
       }
 
       return res.json(professionals.map(professional => {
-        const rating = professional['evaluation._sum']
+        const sum = professional['evaluation._sum']
         const count = professional['evaluation._count']
         return {
           ...professional,
-          evaluation: calcRatingProfessional(rating, count),
+          evaluation: calcRatingProfessional(sum, count),
         }
       }))
     }
@@ -78,15 +78,33 @@ const ProfessionalController = {
       const { id } = req.params
       
       const professional = await Professional.findByPk(id, {
-        include: { association: 'area', attributes: ['name'] },
-        raw: true
+        raw: true,
+        include: [
+          { 
+            association: 'area', 
+            attributes: {
+              exclude: ['password', 'email']
+            }
+          },
+          {
+            association: 'evaluation',
+            attributes: [
+              [sequelize.fn('sum', sequelize.col('assessment')), '_sum'],
+              [sequelize.fn('count', sequelize.col('assessment')), '_count']
+            ]
+          }
+        ]
       })
       
       if (!professional) return res.status(400).json(DefaultErrors.NotExistsInDatase)
-      
-      delete professional.password
-      
-      return res.json(professional)
+
+      const sum = professional['evaluation._sum']
+      const count = professional['evaluation._count']
+
+      return res.json({
+        ...professional,
+        evaluation: calcRatingProfessional(sum, count)
+      })
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
