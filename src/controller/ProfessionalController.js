@@ -68,7 +68,6 @@ const ProfessionalController = {
       }))
     }
     catch (err) {
-      console.log(err)
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
   },
