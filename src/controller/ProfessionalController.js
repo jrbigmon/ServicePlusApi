@@ -1,9 +1,78 @@
-const { Professional } = require('../model/')
+const { Professional, Area, sequelize, EvaluationHasProfessional } = require('../model/')
 const DefaultErrors = require('../Errors/DefaultErrors')
 const bcrypt = require('bcryptjs')
 const { Op } = require('sequelize')
+const calcRatingProfessional = require('../util/calcRatingProfessional')
 
 const ProfessionalController = {
+  getHigherRatingsProfessionals: async (req, res) => {
+    try {
+      let { area: areaId, page, rating } = req.query
+
+      if(!areaId){
+        const areas = await Area.findAll()
+        areaId = areas.map(area => area.id)
+      }
+
+      const numberPage = page || 1
+
+      const offset = numberPage * 10 - 10
+
+      const professionals = await Professional.findAll({
+        raw: true,
+        limit: 10,
+        offset,
+        attributes: {
+          exclude: ['password', 'cpf', 'email', 'createdAt', 'updatedAt', 'deletedAt']
+        },
+        where: { areaId },
+        include: [
+          {
+            association: 'area',
+            attributes: ['name']
+          },
+          {
+            association: 'evaluation',
+            attributes: [
+              [sequelize.fn('sum', sequelize.col('assessment')), '_sum'],
+              [sequelize.fn('count', sequelize.col('assessment')), '_count']
+            ],
+            orderBy: ['assessment', 'DESC']
+          }
+        ]
+      })
+
+      if (professionals[0].id == null) return res.json([])
+
+      if(rating){
+        return res.json(professionals.map(professional => {
+          const sum = professional['evaluation._sum']
+          const count = professional['evaluation._count']
+          const evaluation = calcRatingProfessional(sum, count)
+          if(evaluation == rating){
+            return {
+              ...professional,
+              evaluation
+            }
+          }
+        }))
+      }
+
+      return res.json(professionals.map(professional => {
+        const rating = professional['evaluation._sum']
+        const count = professional['evaluation._count']
+        return {
+          ...professional,
+          evaluation: calcRatingProfessional(rating, count),
+        }
+      }))
+    }
+    catch (err) {
+      console.log(err)
+      return res.status(500).json(DefaultErrors.DatabaseOut)
+    }
+  },
+
   viewProfessional: async (req, res) => {
     try {
       const { id } = req.params
@@ -58,8 +127,13 @@ const ProfessionalController = {
       
       if (verifyIfExists) return res.status(409).json(DefaultErrors.ExistsInDatase)
       
-      await Professional.create(newProfessional)
-      
+      const professionalAfterCreate = await Professional.create(newProfessional)
+
+      await EvaluationHasProfessional.create({
+        professionalId: professionalAfterCreate.id,
+        assessment: 0
+      })
+
       delete newProfessional.password
       
       return res.status(201).json(newProfessional)
