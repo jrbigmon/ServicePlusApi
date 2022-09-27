@@ -8,13 +8,14 @@ const ClientController = {
     try {
       const { id } = req.params
 
-      const client = await Client.findByPk(id, { raw: true })
+      const client = await Client.findByPk(id, { 
+        attributes: { exclude: ['password'] }
+      })
       
       if (!client) return res.status(400).json(DefaultErrors.NotExistsInDatase)
       
-      delete client.password
-      
       return res.json(client)
+      
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
@@ -71,7 +72,7 @@ const ClientController = {
       
       const { typeUser } = req.user
       
-      if (typeUser !== 'client') return res.status(401).json(DefaultErrors.BadRequestByUser)
+      if (typeUser !== 'client') return res.status(401).json(DefaultErrors.UserNotValidated)
       
       const {
         name,
@@ -85,7 +86,7 @@ const ClientController = {
       // const { avatar } = req.file
       const verifyIfExists = await Client.findByPk(id)
       
-      if (!verifyIfExists) return res.status(400).json(DefaultErrors.NotExistsInDatase)
+      if (!verifyIfExists) return res.status(404).json(DefaultErrors.NotExistsInDatase)
       
       const updatedClient = {
         // avatar: avatar.file.filename || verifyIfExists.avatar,
@@ -100,9 +101,9 @@ const ClientController = {
       
       await Client.update(updatedClient, { where: { id } })
       
-      const clientAfterUpdated = await Client.findByPk(id, { raw: true })
-      
-      delete clientAfterUpdated.password
+      const clientAfterUpdated = await Client.findByPk(id, { 
+        attributes: { exclude: ['password']}
+      })
       
       return res.status(202).json(clientAfterUpdated)
     } catch (err) {
@@ -116,7 +117,7 @@ const ClientController = {
       
       const { typeUser } = req.user
       
-      if (typeUser !== 'client') return res.status(401).json(DefaultErrors.BadRequestByUser)
+      if (typeUser !== 'client') return res.status(401).json(DefaultErrors.UserNotValidated)
       
       const verifyIfExists = await Client.findByPk(id)
       
