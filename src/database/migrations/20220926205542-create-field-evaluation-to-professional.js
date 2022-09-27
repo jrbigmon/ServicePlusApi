@@ -25,7 +25,7 @@ module.exports = {
           model: { tableName: 'clients'},
           key: 'id'
         },
-        allowNull: false
+        allowNull: true
       },
 
       assessment: {
