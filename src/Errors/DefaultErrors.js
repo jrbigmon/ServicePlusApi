@@ -7,7 +7,7 @@ module.exports = {
 
   NotExistsInDatase: {
     error: true,
-    message: 'Not Exists in database already!',
+    message: 'Not Exists in database!',
     status: 404
   },
 
