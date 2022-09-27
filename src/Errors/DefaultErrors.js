@@ -38,7 +38,7 @@ module.exports = {
   VerifyToken: {
     error: true,
     message: 'Error in verify Token! Please try again.',
-    status: 403
+    status: 401
   }
 
 }
