@@ -16,14 +16,15 @@ module.exports = (sequelize, DataTypes) => {
 
       clientId: {
         type: DataTypes.INTEGER(10),
-        allowNull: false,
+        allowNull: true,
         foreignKey: true,
         field: 'client_id'
       },
 
       assessment: {
         type: DataTypes.INTEGER(10),
-        allowNull: true
+        allowNull: true,
+        defaultValue: 0
       },
 
       createdAt: {
