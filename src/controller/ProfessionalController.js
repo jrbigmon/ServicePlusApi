@@ -5,7 +5,7 @@ const { Op } = require('sequelize')
 const calcRatingProfessional = require('../util/calcRatingProfessional')
 
 const ProfessionalController = {
-  getHigherRatingsProfessionals: async (req, res) => {
+  getProfessionalByAreaId: async (req, res) => {
     try {
       let { area: areaId, page } = req.query
 
@@ -24,17 +24,14 @@ const ProfessionalController = {
         attributes: {
           exclude: ['password', 'cpf', 'email', 'createdAt', 'updatedAt', 'deletedAt']
         },
-        include: [
-          {
-            association: 'area',
-            attributes: ['name']
-          }
-        ]
+        include: [{
+          association: 'area',
+          attributes: ['name']
+        }]
       })
 
       return res.json(professionals)
-    }
-    catch (err) {
+    } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
   },
@@ -44,33 +41,19 @@ const ProfessionalController = {
       const { id } = req.params
       
       const professional = await Professional.findByPk(id, {
-        raw: true,
         include: [
           { 
             association: 'area', 
             attributes: {
               exclude: ['password', 'email']
             }
-          },
-          {
-            association: 'evaluation',
-            attributes: [
-              [sequelize.fn('sum', sequelize.col('assessment')), '_sum'],
-              [sequelize.fn('count', sequelize.col('assessment')), '_count']
-            ]
           }
         ]
       })
       
       if (!professional) return res.status(400).json(DefaultErrors.NotExistsInDatase)
 
-      const sum = professional['evaluation._sum']
-      const count = professional['evaluation._count']
-
-      return res.json({
-        ...professional,
-        evaluation: calcRatingProfessional(sum, count)
-      })
+      return res.json(professional)
     } catch (err) {
       return res.status(500).json(DefaultErrors.DatabaseOut)
     }
