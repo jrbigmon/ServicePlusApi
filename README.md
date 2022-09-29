@@ -17,6 +17,23 @@ https://github.com/jrbigmon/ServicePlusApi.git
 ```bash
 npm install
 ```
+- Vá até o arquivo .env.example e insira as configurações de sua máquina
+```js
+// Usuario de sua máquina (root padrão)
+DB_USER=
+// Sua senha padrão para servidor do banco de dados
+DB_PASSWORD=
+// Nome do banco de dados
+DB_NAME='service_plus_api'
+// Caso esteja rodando localmente, insira seu localhost aqui (127.0.0.1 padrão)
+DB_HOST=
+// Dialecto usado para o sequilize se comunicar com o banco de dados
+DB_DIALECT='mysql'
+// insira uma senha própria para decodificação do Json Web Token
+JWT_KEY=
+// Crie uma senha para o primeiro adm do projeto
+ADM_PASS=
+```
 
 - Inicie o servidor do Banco de Dados ```XAMPP``` (recomendado) 
 
