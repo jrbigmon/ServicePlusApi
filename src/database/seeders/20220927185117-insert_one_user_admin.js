@@ -2,10 +2,11 @@
 const bcrypt = require('bcryptjs');
 module.exports = {
   async up (queryInterface, Sequelize) {
+    const password = process.env.FIRST_ADM_PASS
     await queryInterface.bulkInsert('admin', [{
       id: 1,
       email: 'admin@example.com',
-      password: bcrypt.hashSync("1@3@4#2#4", 10)
+      password: bcrypt.hashSync(password, 10)
     }], {});
   },
 
