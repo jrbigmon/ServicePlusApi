@@ -32,7 +32,7 @@ DB_DIALECT='mysql'
 // insira uma senha própria para decodificação do Json Web Token
 JWT_KEY=
 // Crie uma senha para o primeiro adm do projeto
-ADM_PASS=
+FIRST_ADM_PASS=
 ```
 
 - Inicie o servidor do Banco de Dados ```XAMPP``` (recomendado) 
