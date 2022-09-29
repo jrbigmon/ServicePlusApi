@@ -7,7 +7,11 @@ const ClientController = {
   viewClient: async (req, res) => {
     try {
       const { id } = req.params
-
+      
+      const { typeUser } = req.user
+      
+      if (typeUser !== 'client') return res.status(401).json(DefaultErrors.UserNotValidated)
+      
       const client = await Client.findByPk(id, { 
         attributes: { exclude: ['password'] }
       })
