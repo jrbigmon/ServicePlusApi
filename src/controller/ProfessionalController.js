@@ -2,10 +2,9 @@ const { Professional, Area, sequelize, EvaluationHasProfessional } = require('..
 const DefaultErrors = require('../Errors/DefaultErrors')
 const bcrypt = require('bcryptjs')
 const { Op } = require('sequelize')
-const calcRatingProfessional = require('../util/calcRatingProfessional')
 
 const ProfessionalController = {
-  getProfessionalByAreaId: async (req, res) => {
+  getProfessionalsByAreaId: async (req, res) => {
     try {
       let { area: areaId, page } = req.query
 
@@ -41,17 +40,38 @@ const ProfessionalController = {
       const { id } = req.params
       
       const professional = await Professional.findByPk(id, {
+        attributes: ['id', 'avatar', 'name', 'lastName', 'postalCode', 'telephone', 'aboutYou', 'areaId'],
         include: [
           { 
             association: 'area', 
-            attributes: {
-              exclude: ['password', 'email']
-            }
+            attributes: ['name']
           }
         ]
       })
       
       if (!professional) return res.status(400).json(DefaultErrors.NotExistsInDatase)
+
+      return res.json(professional)
+    } catch (err) {
+      return res.status(500).json(DefaultErrors.DatabaseOut)
+    }
+  },
+
+  professionalProfile: async (req, res) => {
+    try {
+      const { id } = req.params
+
+      const { typeUser } = req.user
+
+      if(typeUser !== 'professional') return res.status(401).json(DefaultErrors.UserNotValidated)
+      
+      const professional = await Professional.findByPk(id, {
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt'] },
+        include: {
+          association: 'area',
+          attributes: ['name']
+        }
+      })
 
       return res.json(professional)
     } catch (err) {
